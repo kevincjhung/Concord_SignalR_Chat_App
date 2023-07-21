@@ -182,7 +182,7 @@ export default function Chat({ }) {
   return (
     <>
       <PersistentDrawer channels={channels} />
-
+      
       <div>
         <List
           sx={{

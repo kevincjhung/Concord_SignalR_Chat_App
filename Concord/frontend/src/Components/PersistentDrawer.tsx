@@ -22,6 +22,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import AddIcon from '@mui/icons-material/Add';
 
 
 
@@ -141,6 +142,15 @@ export default function PersistentDrawer({ channels }: PersistentDrawerProps) {
 				</DrawerHeader>
 				<Divider />
 				<List>
+					<ListItem disablePadding>
+						<ListItemButton>
+							<ListItemIcon>
+								<AddIcon />
+							</ListItemIcon>
+							<ListItemText primary="Add A Channel" />
+						</ListItemButton>
+					</ListItem>
+					<Divider />
 					{channels.map((channel) => (
 						<ListItem key={channel.id} disablePadding>
 							<ListItemButton>
@@ -151,16 +161,6 @@ export default function PersistentDrawer({ channels }: PersistentDrawerProps) {
 							</ListItemButton>
 						</ListItem>
 					))}
-					{/* {channels.map((text, index) => (
-						<ListItem key={text} disablePadding>
-							<ListItemButton>
-								<ListItemIcon>
-									<AccountCircleOutlinedIcon />
-								</ListItemIcon>
-								<ListItemText primary={text} />
-							</ListItemButton>
-						</ListItem>
-					))} */}
 				</List>
 				{/* <Divider /> */}
 
