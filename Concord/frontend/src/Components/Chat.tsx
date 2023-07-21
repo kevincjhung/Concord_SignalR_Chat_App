@@ -2,6 +2,22 @@ import { useEffect, useState, useRef } from "react";
 import useSignalR from "../useSignalR";
 import "../App.css";
 
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+
+import PersistentDrawer from "./PersistentDrawer";
+
 type Message = {
   id: number;
   text: string;
@@ -44,6 +60,7 @@ export default function Chat({ }) {
 
   // TODO: make this dynamic, fetch current list of channels from backend
   const [currentChannel, setCurrentChannel] = useState("3");
+
 
   useEffect(() => {
     // If not connected yet, return
@@ -181,61 +198,11 @@ export default function Chat({ }) {
     setNewChannelName("");
   };
 
+  
+
   return (
-    <div className="chatPage">
-      <div className="chatHeader">
-        <p>Connection Status: {connection ? "Connected" : "Not connected"}</p>
-        <p>Signal R Chat App</p>
-        <p>This is channel: {currentChannel}</p>
-      </div>
-      <div className="sidebar">
-        {channels.map((channel) => (
-          <div className="sidebarChannelName" key={channel} onClick={() => { if (currentChannel !== channel) setCurrentChannel(channel) }}>
-            <p style={{ fontWeight: currentChannel === channel ? 'bold' : 'normal' }}>Channel: {channel}</p>
-            <button className="deleteButton" onClick={() => handleDelete(channel)}>x</button>
-          </div>
-        ))}
-
-        <div className="createChannelForm">
-          <form onSubmit={handleCreateChannel}>
-            <input
-              type="text"
-              placeholder="Enter channel name"
-              value={newChannelName}
-              onChange={(e) => setNewChannelName(e.target.value)}
-            />
-            <button type="submit">Create Channel</button>
-          </form>
-        </div>
-
-      </div>
-      <div
-        id="messagesWindow"
-        className="overflow-y-scroll"
-        ref={messageEndRef}
-      >
-        {/* // TODO: make messageBubble width 40% of parent element */}
-        <div className="messagesContainer ">
-          {messages.map(message => (
-            <div
-              key={message.id}
-              className={`bg-blue-400 rounded-xl p-4 m-4 chatBubble 
-              ${message.userName === 'witty_wordsmith' ? 'text-right w-2/3 ml-auto' : 'bg-green-400 text-left w-2/3 mr-auto'}`}
-            >
-              <p className="text-gray-800 text-sm mb-1">{message.userName}</p>
-              <p className="text-gray-600 text-sm mb-3">{message.created.toLocaleString()}</p>
-              <p className="text-gray-800 text-lg mb-2">{message.text}</p>
-            </div>
-          ))}
-        </div>
-        <div ref={messageEndRef} />
-      </div>
-      <div className="chatTextBox">
-        <form onSubmit={handleSubmit} className="">
-          <input type="text" className="border border-gray-500 rounded-lg overflow-y-scroll" value={input} onChange={e => setInput(e.target.value)} />
-          <button type="submit" >Send</button>
-        </form>
-      </div>
-    </div>
+    <>
+      <PersistentDrawer channels={channels}/>
+    </> 
   )
 }
