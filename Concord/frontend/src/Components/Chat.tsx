@@ -3,19 +3,11 @@ import useSignalR from "../useSignalR";
 import "../App.css";
 
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import { Paper, List, ListItem, Avatar, TextField } from '@mui/material';
+
+import { List, ListItem, Avatar, TextField } from '@mui/material';
 import PersistentDrawer from "./PersistentDrawer";
 
 type Message = {
@@ -26,14 +18,14 @@ type Message = {
   channelId: number;
 }
 
-type MessageProps = {
-  message: Message;
-}
 
 
 export default function Chat({ }) {
   // Establish SignalR connection
   const { connection } = useSignalR("/r/chat");
+  
+  console.log("App.tsx: connection is:")
+  console.log(connection)
 
   // useState
   const [inputMessage, setInputMessage] = useState("");
@@ -48,7 +40,6 @@ export default function Chat({ }) {
 
   // TODO: make this dynamic, fetch current list of channels from backend
   const [currentChannel, setCurrentChannel] = useState("3");
-
 
   useEffect(() => {
     // If not connected yet, return
@@ -78,7 +69,7 @@ export default function Chat({ }) {
     // this gets called whenever you receive a message from the backend
     connection.on("ReceiveMessage", (message: Message) => {
       // console.log("App.tsx: received message from backend")
-      // console.log(`received message from backend: \n ${message}`)
+      console.log(`received message from backend: \n ${message}`)
       message.created = new Date(message.created);
       setMessages(messages => [...messages, message]);
     })
@@ -191,7 +182,7 @@ export default function Chat({ }) {
   return (
     <>
       <PersistentDrawer channels={channels}/>
-
+      
       <div style={{ maxWidth: 500, margin: '0 auto', marginTop: 20 }}>
       <List
         sx={{
@@ -235,16 +226,19 @@ export default function Chat({ }) {
         ))}
       </List>
       <div style={{ display: 'flex', alignItems: 'center', marginTop: 8 }}>
-        <TextField
-          value={inputMessage}
-          onChange={(e) => setInputMessage(e.target.value)}
-          variant="outlined"
-          label="Type your message..."
-          fullWidth
-        />
-        <IconButton onClick={() => handleSubmit} color="primary">
-          <SendIcon />
-        </IconButton>
+        <form>
+          <TextField
+            value={inputMessage}
+            
+            onChange={(e) => setInputMessage(e.target.value)}
+            variant="outlined"
+            label={"Type your message..."}
+            fullWidth
+          />
+          <IconButton onClick={() => handleSubmit} color="primary">
+            <SendIcon />
+          </IconButton>
+        </form>
       </div>
     </div>
     </> 
