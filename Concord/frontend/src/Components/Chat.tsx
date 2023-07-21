@@ -6,6 +6,7 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
+import Button from '@mui/material/Button';
 
 import { List, ListItem, Avatar, TextField } from '@mui/material';
 import PersistentDrawer from "./PersistentDrawer";
@@ -21,14 +22,12 @@ type Message = {
 
 
 export default function Chat({ }) {
+  
   // Establish SignalR connection
   const { connection } = useSignalR("/r/chat");
-  
-  console.log("App.tsx: connection is:")
-  console.log(connection)
 
   // useState
-  const [inputMessage, setInputMessage] = useState("");
+  const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [newChannelName, setNewChannelName] = useState("");
 
@@ -124,7 +123,7 @@ export default function Chat({ }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        text: inputMessage,
+        text: input,
         userName: "witty_wordsmith"
       })
     })
@@ -155,7 +154,7 @@ export default function Chat({ }) {
 
   const handleCreateChannel = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     // Create new channel in backend
     const newChannel = await fetch(`/api/Channels`, {
       method: "POST",
@@ -166,81 +165,85 @@ export default function Chat({ }) {
         name: newChannelName,
       }),
     }).then((res) => res.json());
-  
+
     // Add the new channel to the list of channels
     setChannels((channels) => [...channels, newChannel.name]);
-  
+
     // Set the current channel to the new channel
     setCurrentChannel(newChannel.name);
-  
+
     // Clear the  field
     setNewChannelName("");
   };
 
-  
+
 
   return (
     <>
-      <PersistentDrawer channels={channels}/>
-      
-      <div style={{ maxWidth: 500, margin: '0 auto', marginTop: 20 }}>
-      <List
-        sx={{
-          overflowY: 'auto',
-          maxHeight: 400,
-          padding: '0',
-          '& .MuiListItem-root': {
-            display: 'flex',
-            alignItems: 'flex-start',
-            padding: '4px 8px',
-          },
-          '& .MuiAvatar-root': {
-            marginRight: '8px',
-          },
-          '& .chat-bubble': {
-            backgroundColor: '#007BFF',
-            color: '#fff',
-            borderRadius: '10px',
-            padding: '8px 12px',
-            maxWidth: '70%',
-            wordBreak: 'break-word',
-          },
-          '& .message-info': {
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-          },
-        }}
-      >
-        {messages.map((message) => (
-          <ListItem key={message.id}>
-            {/* <Avatar alt={message.userName} src={message.userAvatarUrl} /> */}
-            <div className="message-info">
-              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                {message.userName}
-              </Typography>
-              <div className="chat-bubble">{message.text}</div>
-              <Typography variant="caption">{message.created.toLocaleString()}</Typography>
-            </div>
-          </ListItem>
-        ))}
-      </List>
-      <div style={{ display: 'flex', alignItems: 'center', marginTop: 8 }}>
-        <form>
-          <TextField
-            value={inputMessage}
-            
-            onChange={(e) => setInputMessage(e.target.value)}
-            variant="outlined"
-            label={"Type your message..."}
-            fullWidth
-          />
-          <IconButton onClick={() => handleSubmit} color="primary">
-            <SendIcon />
-          </IconButton>
-        </form>
+      <PersistentDrawer channels={channels} />
+
+      <div style={{ maxWidth: 500, margin: '0 auto', marginTop: 1 }}>
+        <List
+          sx={{
+            overflowY: 'auto',
+            maxHeight: 400,
+            padding: '0',
+            '& .MuiListItem-root': {
+              display: 'flex',
+              alignItems: 'flex-start',
+              padding: '4px 8px',
+            },
+            '& .MuiAvatar-root': {
+              marginRight: '8px',
+            },
+            '& .chat-bubble': {
+              backgroundColor: '#007BFF',
+              color: '#fff',
+              borderRadius: '10px',
+              padding: '8px 12px',
+              maxWidth: '70%',
+              wordBreak: 'break-word',
+            },
+            '& .message-info': {
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+            },
+          }}
+        >
+          {messages.map((message) => (
+            <ListItem key={message.id}>
+              {/* <Avatar alt={message.userName} src={message.userAvatarUrl} /> */}
+              <div className="message-info">
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                  {message.userName}
+                </Typography>
+                <div className="chat-bubble">{message.text}</div>
+                <Typography variant="caption">{message.created.toLocaleString()}</Typography>
+              </div>
+            </ListItem>
+          ))}
+        </List>
+        <div>
+          <form onSubmit={handleSubmit} className="flex items-center space-x-2">
+            <TextField
+              id="outlined-basic"
+              variant="outlined"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              className="flex-grow"
+              multiline
+              maxRows={4}
+            />
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
+            >
+              Send
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
-    </> 
+    </>
   )
 }
