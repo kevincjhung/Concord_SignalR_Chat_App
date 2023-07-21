@@ -16,7 +16,6 @@ public class ChatHub : Hub
     await Clients.All.SendAsync("ReceiveMessage", user, message); // send message 
   }
 
-
   public async Task AddToGroup(string groupName){
     // TODO: optional Verify and authenticate the user
     
