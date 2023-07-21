@@ -8,8 +8,28 @@ import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
 import Button from '@mui/material/Button';
 
+
+import Box from '@mui/material/Box';
+
+
+import Modal from '@mui/material/Modal';
+
+
 import { List, ListItem, Avatar, TextField } from '@mui/material';
 import PersistentDrawer from "./PersistentDrawer";
+
+// Style for the modal
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 type Message = {
   id: number;
@@ -21,8 +41,8 @@ type Message = {
 
 
 
-export default function Chat({ }) {
-  
+export default function Chat() {
+
   // Establish SignalR connection
   const { connection } = useSignalR("/r/chat");
 
@@ -31,15 +51,20 @@ export default function Chat({ }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newChannelName, setNewChannelName] = useState("");
 
+  // Modal For Creating New Channel
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   // TODO: fetch the actual list of channels from backend
-  const [channels, setChannels] = useState([ ]);
+  const [channels, setChannels] = useState([]);
 
   // Scroll to the bottom of messages
   const messageEndRef = useRef<HTMLDivElement>(null);
 
   // TODO: make this dynamic, fetch current list of channels from backend
   const [currentChannel, setCurrentChannel] = useState("3");
-  
+
   // TODO: Current user is hardcoded for now. Make currernt user messages on the right, everyone else's on the left 
   const [currentUser, setCurrentUser] = useState("witty_wordsmith");
 
@@ -153,8 +178,8 @@ export default function Chat({ }) {
     setCurrentChannel(channels[0])
   }
 
-  const handleCreateChannel = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleCreateChannel = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     // Create new channel in backend
     const newChannel = await fetch(`/api/Channels`, {
@@ -182,12 +207,39 @@ export default function Chat({ }) {
   return (
     <>
       <PersistentDrawer channels={channels} />
-      
       <div>
+        <div>
+          <Button onClick={handleOpen}>Open modal</Button>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Create A New Channel
+              </Typography>
+              <form>
+                <TextField
+                  id="outlined-basic"
+                  label="Channel Name"
+                  variant="outlined"
+                  value={newChannelName}
+                  onChange={(e) => setNewChannelName(e.target.value)}
+                />
+                <button
+                  className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
+                  onClick={handleCreateChannel}
+                > Create Channel </button>
+              </form>
+            </Box>
+          </Modal>
+        </div>
         <List
           sx={{
             overflowY: 'auto',
-            maxHeight: 'calc(100vh - 64px - 48px - 48px - 16px - 16px)',  
+            maxHeight: 'calc(100vh - 64px - 48px - 48px - 16px - 16px)',
             maxWidth: 800,
             padding: '0',
             '& .MuiListItem-root': {

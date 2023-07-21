@@ -29,11 +29,6 @@ import AddIcon from '@mui/icons-material/Add';
 const drawerWidth = 240;
 
 
-// Define the interface for the 'PersistentDrawer' component props
-// interface PersistentDrawerProps {
-//   channels: string[]; // Prop for the chat channels array
-// }
-
 interface PersistentDrawerProps {
 	channels: {
 		id: number;
@@ -162,8 +157,6 @@ export default function PersistentDrawer({ channels }: PersistentDrawerProps) {
 						</ListItem>
 					))}
 				</List>
-				{/* <Divider /> */}
-
 			</Drawer>
 			<Main open={open}>
 				<DrawerHeader />
