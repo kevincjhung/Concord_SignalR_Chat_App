@@ -167,8 +167,8 @@ export default function Chat({ }) {
       }),
     }).then((res) => res.json());
 
-    // Add the new channel to the list of channels
-    setChannels((channels) => [...channels, newChannel.name]);
+    // TODO: Add the new channel to the list of channels
+    // setChannels((channels) => [...channels, newChannel.name]);
 
     // Set the current channel to the new channel
     setCurrentChannel(newChannel.name);
