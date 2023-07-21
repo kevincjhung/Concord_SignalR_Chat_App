@@ -1,0 +1,125 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20%;
+  max-width: 200px;
+  height: 100%;
+  background-color: #f2f2f2;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* if screen less than 400px, make sidebar display none*/
+@media screen and (max-width:600px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+.sidebar div {
+  margin-bottom: 10px;
+}
+
+.chatHeader {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px;
+  background-color: #353535;
+  color: white;
+}
+
+/* todo: fix this, implement with grid instead */
+.chatPage {
+  margin-left: 20%; /* same width as the sidebar */
+}
+
+.chatBubble {
+  width: 70%;
+  max-width: 420px;
+}
+
+.messagesContainer {
+  overflow-y: scroll;
+  min-height: 60vh;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.chatTextBox {
+  width: 100%;
+  border-radius: 5px;
+  padding: 10px;
+  outline: none;
+  text-align: top;
+}
+
+.chatTextBox input {
+  width: 85%;
+  max-height: 40px;
+  outline: none;
+  resize: none;
+}
+
+.chatTextBox button {
+  max-width: 1rem;
+  max-height: 3rem;
+  border: 1px blue solid;
+  outline: none;
+}
+
+.chatTextBox button:hover {
+  background-color: #3835de;
+  transition: 0.2s;
+}
+
+.sidebarChannelName {
+  font-size: 20px;
+  font-weight: bold;
+  transition: transform 0.2s ease-in-out;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.sidebarChannelName:hover {
+  font-size: 20px;
+  font-weight: bold;
+  transform: translateX(7px);
+}
+
+/* TODO: fix button formatting */
+.deleteButton {
+  background-color: red;
+
+  /* make the button a circle */
+  border-radius: 15px;
+  border: none;
+  color: white;
+  /* padding: 5px 20px; */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  margin: 2px 2px;
+  cursor: pointer;
+}
+
+.sidebarChannelName button {
+  position: absolute;
+  right: -15px; /* move the button outside the container */
+  visibility: hidden; /* make the button invisible by default */
+}
+
+.sidebarChannelName p {
+  display: inline-block; /* make the paragraph element display inline with the delete button */
+}
+
+.sidebarChannelName:hover button {
+  visibility: visible; /* show the button on hover */
+}
+
+.createChannelForm {
+  position: absolute;
+  bottom: 20px;
+}
