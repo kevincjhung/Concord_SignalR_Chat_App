@@ -8,14 +8,14 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import SendIcon from '@mui/icons-material/Send';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-
+import { Paper, List, ListItem, Avatar, TextField } from '@mui/material';
 import PersistentDrawer from "./PersistentDrawer";
 
 type Message = {
@@ -31,24 +31,12 @@ type MessageProps = {
 }
 
 
-
-// const MessageBubble = ({ message }: MessageProps) => {
-//   const { text, userName } = message;
-
-//   return (
-//     <div className="messageBubble">
-//       <div className="messageUserName">{userName}</div>
-//       <div className="messageText">{text}</div>
-//     </div>
-//   );
-// };
-
 export default function Chat({ }) {
   // Establish SignalR connection
   const { connection } = useSignalR("/r/chat");
 
   // useState
-  const [input, setInput] = useState("");
+  const [inputMessage, setInputMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [newChannelName, setNewChannelName] = useState("");
 
@@ -145,7 +133,7 @@ export default function Chat({ }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        text: input,
+        text: inputMessage,
         userName: "witty_wordsmith"
       })
     })
@@ -194,7 +182,7 @@ export default function Chat({ }) {
     // Set the current channel to the new channel
     setCurrentChannel(newChannel.name);
   
-    // Clear the input field
+    // Clear the  field
     setNewChannelName("");
   };
 
@@ -203,6 +191,62 @@ export default function Chat({ }) {
   return (
     <>
       <PersistentDrawer channels={channels}/>
+
+      <div style={{ maxWidth: 500, margin: '0 auto', marginTop: 20 }}>
+      <List
+        sx={{
+          overflowY: 'auto',
+          maxHeight: 400,
+          padding: '0',
+          '& .MuiListItem-root': {
+            display: 'flex',
+            alignItems: 'flex-start',
+            padding: '4px 8px',
+          },
+          '& .MuiAvatar-root': {
+            marginRight: '8px',
+          },
+          '& .chat-bubble': {
+            backgroundColor: '#007BFF',
+            color: '#fff',
+            borderRadius: '10px',
+            padding: '8px 12px',
+            maxWidth: '70%',
+            wordBreak: 'break-word',
+          },
+          '& .message-info': {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+          },
+        }}
+      >
+        {messages.map((message) => (
+          <ListItem key={message.id}>
+            {/* <Avatar alt={message.userName} src={message.userAvatarUrl} /> */}
+            <div className="message-info">
+              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                {message.userName}
+              </Typography>
+              <div className="chat-bubble">{message.text}</div>
+              <Typography variant="caption">{message.created.toLocaleString()}</Typography>
+            </div>
+          </ListItem>
+        ))}
+      </List>
+      <div style={{ display: 'flex', alignItems: 'center', marginTop: 8 }}>
+        <TextField
+          value={inputMessage}
+          onChange={(e) => setInputMessage(e.target.value)}
+          variant="outlined"
+          label="Type your message..."
+          fullWidth
+        />
+        <IconButton onClick={() => handleSubmit} color="primary">
+          <SendIcon />
+        </IconButton>
+      </div>
+    </div>
     </> 
   )
 }
