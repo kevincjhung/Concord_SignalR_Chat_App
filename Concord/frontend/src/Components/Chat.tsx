@@ -32,13 +32,16 @@ export default function Chat({ }) {
   const [newChannelName, setNewChannelName] = useState("");
 
   // TODO: fetch the actual list of channels from backend
-  const [channels, setChannels] = useState(["3", "4"]);
+  const [channels, setChannels] = useState([ ]);
 
   // Scroll to the bottom of messages
   const messageEndRef = useRef<HTMLDivElement>(null);
 
   // TODO: make this dynamic, fetch current list of channels from backend
   const [currentChannel, setCurrentChannel] = useState("3");
+  
+  // TODO: Current user is hardcoded for now. Make currernt user messages on the right, everyone else's on the left 
+  const [currentUser, setCurrentUser] = useState("witty_wordsmith");
 
   useEffect(() => {
     // If not connected yet, return
@@ -63,7 +66,6 @@ export default function Chat({ }) {
         console.error(error);
       });
 
-    // TODO: implement infinite scroll, so that when you scroll to the top, you get more messages
 
     // this gets called whenever you receive a message from the backend
     connection.on("ReceiveMessage", (message: Message) => {
@@ -96,9 +98,8 @@ export default function Chat({ }) {
     fetch(`/api/Channels`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("App.tsx: getting all the channels from backend, the channels are:")
-        console.log(data)
-        // setChannels(data);
+        console.log(data);
+        setChannels(data)
       })
       .catch((error) => {
         console.error(error);
@@ -182,11 +183,12 @@ export default function Chat({ }) {
     <>
       <PersistentDrawer channels={channels} />
 
-      <div style={{ maxWidth: 500, margin: '0 auto', marginTop: 1 }}>
+      <div>
         <List
           sx={{
             overflowY: 'auto',
-            maxHeight: 400,
+            maxHeight: 'calc(100vh - 64px - 48px - 48px - 16px - 16px)',  
+            maxWidth: 800,
             padding: '0',
             '& .MuiListItem-root': {
               display: 'flex',
@@ -199,7 +201,7 @@ export default function Chat({ }) {
             '& .chat-bubble': {
               backgroundColor: '#007BFF',
               color: '#fff',
-              borderRadius: '10px',
+              borderRadius: '15px',
               padding: '8px 12px',
               maxWidth: '70%',
               wordBreak: 'break-word',

@@ -29,10 +29,16 @@ const drawerWidth = 240;
 
 
 // Define the interface for the 'PersistentDrawer' component props
-interface PersistentDrawerProps {
-  channels: string[]; // Prop for the chat channels array
-}
+// interface PersistentDrawerProps {
+//   channels: string[]; // Prop for the chat channels array
+// }
 
+interface PersistentDrawerProps {
+	channels: {
+		id: number;
+		name: string;
+	}[];
+}
 
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
@@ -84,7 +90,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 	justifyContent: 'flex-end',
 }));
 
-export default function PersistentDrawer({ channels }: PersistentDrawerProps ) {
+export default function PersistentDrawer({ channels }: PersistentDrawerProps) {
 	const theme = useTheme();
 	const [open, setOpen] = React.useState(false);
 
@@ -135,7 +141,17 @@ export default function PersistentDrawer({ channels }: PersistentDrawerProps ) {
 				</DrawerHeader>
 				<Divider />
 				<List>
-					{channels.map((text, index) => (
+					{channels.map((channel) => (
+						<ListItem key={channel.id} disablePadding>
+							<ListItemButton>
+								<ListItemIcon>
+									<AccountCircleOutlinedIcon />
+								</ListItemIcon>
+								<ListItemText primary={channel.name} />
+							</ListItemButton>
+						</ListItem>
+					))}
+					{/* {channels.map((text, index) => (
 						<ListItem key={text} disablePadding>
 							<ListItemButton>
 								<ListItemIcon>
@@ -144,10 +160,10 @@ export default function PersistentDrawer({ channels }: PersistentDrawerProps ) {
 								<ListItemText primary={text} />
 							</ListItemButton>
 						</ListItem>
-					))}
+					))} */}
 				</List>
 				{/* <Divider /> */}
-				
+
 			</Drawer>
 			<Main open={open}>
 				<DrawerHeader />
