@@ -2,6 +2,15 @@ import { useEffect, useState, useRef } from "react";
 import useSignalR from "../useSignalR";
 import "../App.css";
 
+import * as React from 'react';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import SendIcon from '@mui/icons-material/Send';
+import Button from '@mui/material/Button';
+
+import { List, ListItem, Avatar, TextField } from '@mui/material';
+import PersistentDrawer from "./PersistentDrawer";
+
 type Message = {
   id: number;
   text: string;
@@ -10,24 +19,10 @@ type Message = {
   channelId: number;
 }
 
-type MessageProps = {
-  message: Message;
-}
 
-
-
-// const MessageBubble = ({ message }: MessageProps) => {
-//   const { text, userName } = message;
-
-//   return (
-//     <div className="messageBubble">
-//       <div className="messageUserName">{userName}</div>
-//       <div className="messageText">{text}</div>
-//     </div>
-//   );
-// };
 
 export default function Chat({ }) {
+  
   // Establish SignalR connection
   const { connection } = useSignalR("/r/chat");
 
@@ -37,13 +32,16 @@ export default function Chat({ }) {
   const [newChannelName, setNewChannelName] = useState("");
 
   // TODO: fetch the actual list of channels from backend
-  const [channels, setChannels] = useState(["3", "4"]);
+  const [channels, setChannels] = useState([ ]);
 
   // Scroll to the bottom of messages
   const messageEndRef = useRef<HTMLDivElement>(null);
 
   // TODO: make this dynamic, fetch current list of channels from backend
   const [currentChannel, setCurrentChannel] = useState("3");
+  
+  // TODO: Current user is hardcoded for now. Make currernt user messages on the right, everyone else's on the left 
+  const [currentUser, setCurrentUser] = useState("witty_wordsmith");
 
   useEffect(() => {
     // If not connected yet, return
@@ -68,12 +66,11 @@ export default function Chat({ }) {
         console.error(error);
       });
 
-    // TODO: implement infinite scroll, so that when you scroll to the top, you get more messages
 
     // this gets called whenever you receive a message from the backend
     connection.on("ReceiveMessage", (message: Message) => {
       // console.log("App.tsx: received message from backend")
-      // console.log(`received message from backend: \n ${message}`)
+      console.log(`received message from backend: \n ${message}`)
       message.created = new Date(message.created);
       setMessages(messages => [...messages, message]);
     })
@@ -101,9 +98,8 @@ export default function Chat({ }) {
     fetch(`/api/Channels`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("App.tsx: getting all the channels from backend, the channels are:")
-        console.log(data)
-        // setChannels(data);
+        console.log(data);
+        setChannels(data)
       })
       .catch((error) => {
         console.error(error);
@@ -159,7 +155,7 @@ export default function Chat({ }) {
 
   const handleCreateChannel = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     // Create new channel in backend
     const newChannel = await fetch(`/api/Channels`, {
       method: "POST",
@@ -170,72 +166,86 @@ export default function Chat({ }) {
         name: newChannelName,
       }),
     }).then((res) => res.json());
-  
-    // Add the new channel to the list of channels
-    setChannels((channels) => [...channels, newChannel.name]);
-  
+
+    // TODO: Add the new channel to the list of channels
+    // setChannels((channels) => [...channels, newChannel.name]);
+
     // Set the current channel to the new channel
     setCurrentChannel(newChannel.name);
-  
-    // Clear the input field
+
+    // Clear the  field
     setNewChannelName("");
   };
 
-  return (
-    <div className="chatPage">
-      <div className="chatHeader">
-        <p>Connection Status: {connection ? "Connected" : "Not connected"}</p>
-        <p>Signal R Chat App</p>
-        <p>This is channel: {currentChannel}</p>
-      </div>
-      <div className="sidebar">
-        {channels.map((channel) => (
-          <div className="sidebarChannelName" key={channel} onClick={() => { if (currentChannel !== channel) setCurrentChannel(channel) }}>
-            <p style={{ fontWeight: currentChannel === channel ? 'bold' : 'normal' }}>Channel: {channel}</p>
-            <button className="deleteButton" onClick={() => handleDelete(channel)}>x</button>
-          </div>
-        ))}
 
-        <div className="createChannelForm">
-          <form onSubmit={handleCreateChannel}>
-            <input
-              type="text"
-              placeholder="Enter channel name"
-              value={newChannelName}
-              onChange={(e) => setNewChannelName(e.target.value)}
+
+  return (
+    <>
+      <PersistentDrawer channels={channels} />
+
+      <div>
+        <List
+          sx={{
+            overflowY: 'auto',
+            maxHeight: 'calc(100vh - 64px - 48px - 48px - 16px - 16px)',  
+            maxWidth: 800,
+            padding: '0',
+            '& .MuiListItem-root': {
+              display: 'flex',
+              alignItems: 'flex-start',
+              padding: '4px 8px',
+            },
+            '& .MuiAvatar-root': {
+              marginRight: '8px',
+            },
+            '& .chat-bubble': {
+              backgroundColor: '#007BFF',
+              color: '#fff',
+              borderRadius: '15px',
+              padding: '8px 12px',
+              maxWidth: '70%',
+              wordBreak: 'break-word',
+            },
+            '& .message-info': {
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+            },
+          }}
+        >
+          {messages.map((message) => (
+            <ListItem key={message.id}>
+              {/* <Avatar alt={message.userName} src={message.userAvatarUrl} /> */}
+              <div className="message-info">
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                  {message.userName}
+                </Typography>
+                <div className="chat-bubble">{message.text}</div>
+                <Typography variant="caption">{message.created.toLocaleString()}</Typography>
+              </div>
+            </ListItem>
+          ))}
+        </List>
+        <div>
+          <form onSubmit={handleSubmit} className="flex items-center space-x-2">
+            <TextField
+              id="outlined-basic"
+              variant="outlined"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              className="flex-grow"
+              multiline
+              maxRows={4}
             />
-            <button type="submit">Create Channel</button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
+            >
+              Send
+            </button>
           </form>
         </div>
-
       </div>
-      <div
-        id="messagesWindow"
-        className="overflow-y-scroll"
-        ref={messageEndRef}
-      >
-        {/* // TODO: make messageBubble width 40% of parent element */}
-        <div className="messagesContainer ">
-          {messages.map(message => (
-            <div
-              key={message.id}
-              className={`bg-blue-400 rounded-xl p-4 m-4 chatBubble 
-              ${message.userName === 'witty_wordsmith' ? 'text-right w-2/3 ml-auto' : 'bg-green-400 text-left w-2/3 mr-auto'}`}
-            >
-              <p className="text-gray-800 text-sm mb-1">{message.userName}</p>
-              <p className="text-gray-600 text-sm mb-3">{message.created.toLocaleString()}</p>
-              <p className="text-gray-800 text-lg mb-2">{message.text}</p>
-            </div>
-          ))}
-        </div>
-        <div ref={messageEndRef} />
-      </div>
-      <div className="chatTextBox">
-        <form onSubmit={handleSubmit} className="">
-          <input type="text" className="border border-gray-500 rounded-lg overflow-y-scroll" value={input} onChange={e => setInput(e.target.value)} />
-          <button type="submit" >Send</button>
-        </form>
-      </div>
-    </div>
+    </>
   )
 }
