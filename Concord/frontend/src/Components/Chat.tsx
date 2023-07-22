@@ -209,7 +209,7 @@ export default function Chat() {
       <PersistentDrawer channels={channels} />
       <div>
         <div>
-          <Button onClick={handleOpen}>Open modal</Button>
+          <Button onClick={handleOpen}>Create A New Channel</Button>
           <Modal
             open={open}
             onClose={handleClose}
@@ -231,7 +231,9 @@ export default function Chat() {
                 <button
                   className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
                   onClick={handleCreateChannel}
-                > Create Channel </button>
+                > 
+                  Create Channel 
+                </button>
               </form>
             </Box>
           </Modal>
