@@ -208,40 +208,10 @@ export default function Chat() {
     <>
       <PersistentDrawer channels={channels} />
       <div>
-        <div>
-          <Button onClick={handleOpen}>Create A New Channel</Button>
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={style}>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                Create A New Channel
-              </Typography>
-              <form>
-                <TextField
-                  id="outlined-basic"
-                  label="Channel Name"
-                  variant="outlined"
-                  value={newChannelName}
-                  onChange={(e) => setNewChannelName(e.target.value)}
-                />
-                <button
-                  className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
-                  onClick={handleCreateChannel}
-                > 
-                  Create Channel 
-                </button>
-              </form>
-            </Box>
-          </Modal>
-        </div>
         <List
           sx={{
             overflowY: 'auto',
-            maxHeight: 'calc(100vh - 64px - 48px - 48px - 16px - 16px)',
+            maxHeight: 'calc(100vh - 64px - 48px - 48px - 16px - 16p`x)',
             maxWidth: 800,
             padding: '0',
             '& .MuiListItem-root': {
