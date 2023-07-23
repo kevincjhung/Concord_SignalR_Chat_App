@@ -230,67 +230,49 @@ export default function Chat() {
     setNewChannelName("");
   };
 
-
+  // min 555 max 1047
 
   return (
-    <>
+    <div >
       <PersistentDrawer channels={channels} />
-      <List
-        sx={{
-          overflowY: 'scroll',
-          maxHeight: '850px',
-          maxWidth: 800,
-          padding: '0',
-          '& .MuiListItem-root': {
-            display: 'flex',
-            // alignItems: 'flex-start',
-            padding: '4px 8px',
-          },
-          '& .MuiAvatar-root': {
-            marginRight: '8px',
-          },
-          '& .chat-bubble': {
-            backgroundColor: '#007BFF',
-            color: '#fff',
-            borderRadius: '15px',
-            padding: '8px 12px',
-            maxWidth: '70%',
-            wordBreak: 'break-word',
-          },
-          '& .message-info': {
-            display: 'flex',
-            flexDirection: 'column',
-            // alignItems: 'flex-start',
-          },
-        }}
-      >
-        {messages.map((message) => (
-          <ListItem key={message.id}>
-            {message.userName === currentUser ? (
-              <CurrentUserMessageBubble message={message} />
-            ) : (
-              <OtherUserMessageBubble message={message} />
-            )}
-          </ListItem>
-        ))}
-      </List>
-      <form onSubmit={handleSubmit} className="flex items-center space-x-2 mt-4 mx-4">
-        <TextField
-          id="outlined-basic"
-          variant="outlined"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          className="flex-grow"
-          multiline
-          maxRows={4}
-        />
-        <button
-          type="submit"
-          className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
+      <div className="bg-red-600 max-w-[927px] min-w-[555px]">
+        <List
+          sx={{
+            overflowY: 'scroll',
+            maxHeight: '850px',
+            minWidth: '555px',
+            padding: '0',
+            backgroundColor: '#fff',
+          }}
         >
-          Send
-        </button>
-      </form>
-    </>
+          {messages.map((message) => (
+            <ListItem key={message.id}>
+              {message.userName === currentUser ? (
+                <CurrentUserMessageBubble message={message} />
+              ) : (
+                <OtherUserMessageBubble message={message} />
+              )}
+            </ListItem>
+          ))}
+        </List>
+        <form onSubmit={handleSubmit} className="flex items-center space-x-2 mt-4 mx-4 ">
+          <TextField
+            id="outlined-basic"
+            variant="outlined"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="flex-grow"
+            multiline
+            maxRows={4}
+          />
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
+          >
+            Send
+          </button>
+        </form>
+        </div>
+    </div>
   )
 }
