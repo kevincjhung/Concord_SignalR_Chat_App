@@ -50,10 +50,6 @@ export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newChannelName, setNewChannelName] = useState("");
 
-  // Modal For Creating New Channel
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   // TODO: fetch the actual list of channels from backend
   const [channels, setChannels] = useState([]);
@@ -239,66 +235,62 @@ export default function Chat() {
   return (
     <>
       <PersistentDrawer channels={channels} />
-      <div>
-        <List
-          sx={{
-            overflowY: 'auto',
-            maxHeight: 'calc(100vh - 64px - 48px - 48px - 16px - 16p`x)',
-            maxWidth: 800,
-            padding: '0',
-            '& .MuiListItem-root': {
-              display: 'flex',
-              // alignItems: 'flex-start',
-              padding: '4px 8px',
-            },
-            '& .MuiAvatar-root': {
-              marginRight: '8px',
-            },
-            '& .chat-bubble': {
-              backgroundColor: '#007BFF',
-              color: '#fff',
-              borderRadius: '15px',
-              padding: '8px 12px',
-              maxWidth: '70%',
-              wordBreak: 'break-word',
-            },
-            '& .message-info': {
-              display: 'flex',
-              flexDirection: 'column',
-              // alignItems: 'flex-start',
-            },
-          }}
+      <List
+        sx={{
+          overflowY: 'scroll',
+          maxHeight: '850px',
+          maxWidth: 800,
+          padding: '0',
+          '& .MuiListItem-root': {
+            display: 'flex',
+            // alignItems: 'flex-start',
+            padding: '4px 8px',
+          },
+          '& .MuiAvatar-root': {
+            marginRight: '8px',
+          },
+          '& .chat-bubble': {
+            backgroundColor: '#007BFF',
+            color: '#fff',
+            borderRadius: '15px',
+            padding: '8px 12px',
+            maxWidth: '70%',
+            wordBreak: 'break-word',
+          },
+          '& .message-info': {
+            display: 'flex',
+            flexDirection: 'column',
+            // alignItems: 'flex-start',
+          },
+        }}
+      >
+        {messages.map((message) => (
+          <ListItem key={message.id}>
+            {message.userName === currentUser ? (
+              <CurrentUserMessageBubble message={message} />
+            ) : (
+              <OtherUserMessageBubble message={message} />
+            )}
+          </ListItem>
+        ))}
+      </List>
+      <form onSubmit={handleSubmit} className="flex items-center space-x-2 mt-4 mx-4">
+        <TextField
+          id="outlined-basic"
+          variant="outlined"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          className="flex-grow"
+          multiline
+          maxRows={4}
+        />
+        <button
+          type="submit"
+          className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
         >
-          {messages.map((message) => (
-            <ListItem key={message.id}>
-              {message.userName === currentUser ? (
-                <CurrentUserMessageBubble message={message} />
-              ) : (
-                <OtherUserMessageBubble message={message} />
-              )}
-            </ListItem>
-          ))}
-        </List>
-        <div>
-          <form onSubmit={handleSubmit} className="flex items-center space-x-2">
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              className="flex-grow"
-              multiline
-              maxRows={4}
-            />
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
-            >
-              Send
-            </button>
-          </form>
-        </div>
-      </div>
+          Send
+        </button>
+      </form>
     </>
   )
 }
