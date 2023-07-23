@@ -1,22 +1,21 @@
+// Libraries
+import * as React from 'react';
 import { useEffect, useState, useRef } from "react";
-import useSignalR from "../useSignalR";
 import "../App.css";
 
-import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
 import Button from '@mui/material/Button';
-
-
 import Box from '@mui/material/Box';
-
-
 import Modal from '@mui/material/Modal';
-
-
 import { List, ListItem, Avatar, TextField } from '@mui/material';
+
+// Components
 import PersistentDrawer from "./PersistentDrawer";
+
+// Custom Hook
+import useSignalR from "../useSignalR";
 
 // Style for the modal
 const style = {
@@ -59,14 +58,47 @@ export default function Chat() {
   // TODO: fetch the actual list of channels from backend
   const [channels, setChannels] = useState([]);
 
-  // Scroll to the bottom of messages
-  const messageEndRef = useRef<HTMLDivElement>(null);
-
   // TODO: make this dynamic, fetch current list of channels from backend
-  const [currentChannel, setCurrentChannel] = useState("3");
+  const [currentChannel, setCurrentChannel] = useState("4");
 
   // TODO: Current user is hardcoded for now. Make currernt user messages on the right, everyone else's on the left 
   const [currentUser, setCurrentUser] = useState("witty_wordsmith");
+
+  // Scroll to the bottom of messages
+  const messageEndRef = useRef<HTMLDivElement>(null);
+
+
+  type CurrentUserMessageBubbleProps = {
+    message: Message;
+  };
+
+  type OtherUserMessageBubbleProps = {
+    message: Message;
+  };
+
+  // New component for the current user's message bubble
+  const CurrentUserMessageBubble: React.FC<CurrentUserMessageBubbleProps> = ({ message }) => {
+    return (
+      <div className="chat-bubble-current flex flex-col items-start bg-blue-500 text-white p-2 rounded-lg max-w-[387px] ml-auto">
+        <p>{message.text}</p>
+        <div className="text-xs mt-4">{message.created.toLocaleString()}</div>
+      </div>
+    );
+  };
+
+  // New component for other users' message bubble
+  const OtherUserMessageBubble: React.FC<OtherUserMessageBubbleProps> = ({ message }) => {
+    return (
+      <div className="chat-bubble-other flex flex-col items-start bg-gray-200 p-2 rounded-lg max-w-[387px]">
+        <p>{message.text}</p>
+        <p className="text-xs mt-4">
+          {message.created.toLocaleString()}
+        </p>
+      </div>
+    );
+  };
+
+
 
   useEffect(() => {
     // If not connected yet, return
@@ -216,7 +248,7 @@ export default function Chat() {
             padding: '0',
             '& .MuiListItem-root': {
               display: 'flex',
-              alignItems: 'flex-start',
+              // alignItems: 'flex-start',
               padding: '4px 8px',
             },
             '& .MuiAvatar-root': {
@@ -233,20 +265,17 @@ export default function Chat() {
             '& .message-info': {
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'flex-start',
+              // alignItems: 'flex-start',
             },
           }}
         >
           {messages.map((message) => (
             <ListItem key={message.id}>
-              {/* <Avatar alt={message.userName} src={message.userAvatarUrl} /> */}
-              <div className="message-info">
-                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                  {message.userName}
-                </Typography>
-                <div className="chat-bubble">{message.text}</div>
-                <Typography variant="caption">{message.created.toLocaleString()}</Typography>
-              </div>
+              {message.userName === currentUser ? (
+                <CurrentUserMessageBubble message={message} />
+              ) : (
+                <OtherUserMessageBubble message={message} />
+              )}
             </ListItem>
           ))}
         </List>
