@@ -55,7 +55,7 @@ export default function Chat() {
   const [channels, setChannels] = useState([]);
 
   // TODO: make this dynamic, fetch current list of channels from backend
-  const [currentChannel, setCurrentChannel] = useState("4");
+  const [currentChannel, setCurrentChannel] = useState("3");
 
   // TODO: Current user is hardcoded for now. Make currernt user messages on the right, everyone else's on the left 
   const [currentUser, setCurrentUser] = useState("witty_wordsmith");
