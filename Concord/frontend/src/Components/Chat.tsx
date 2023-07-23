@@ -1,15 +1,34 @@
+// Libraries
+import * as React from 'react';
 import { useEffect, useState, useRef } from "react";
-import useSignalR from "../useSignalR";
 import "../App.css";
 
-import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
 import Button from '@mui/material/Button';
-
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
 import { List, ListItem, Avatar, TextField } from '@mui/material';
+
+// Components
 import PersistentDrawer from "./PersistentDrawer";
+
+// Custom Hook
+import useSignalR from "../useSignalR";
+
+// Style for the modal
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 type Message = {
   id: number;
@@ -21,8 +40,8 @@ type Message = {
 
 
 
-export default function Chat({ }) {
-  
+export default function Chat() {
+
   // Establish SignalR connection
   const { connection } = useSignalR("/r/chat");
 
@@ -31,17 +50,51 @@ export default function Chat({ }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newChannelName, setNewChannelName] = useState("");
 
+
   // TODO: fetch the actual list of channels from backend
-  const [channels, setChannels] = useState([ ]);
+  const [channels, setChannels] = useState([]);
+
+  // TODO: make this dynamic, fetch current list of channels from backend
+  const [currentChannel, setCurrentChannel] = useState("4");
+
+  // TODO: Current user is hardcoded for now. Make currernt user messages on the right, everyone else's on the left 
+  const [currentUser, setCurrentUser] = useState("witty_wordsmith");
 
   // Scroll to the bottom of messages
   const messageEndRef = useRef<HTMLDivElement>(null);
 
-  // TODO: make this dynamic, fetch current list of channels from backend
-  const [currentChannel, setCurrentChannel] = useState("3");
-  
-  // TODO: Current user is hardcoded for now. Make currernt user messages on the right, everyone else's on the left 
-  const [currentUser, setCurrentUser] = useState("witty_wordsmith");
+
+  type CurrentUserMessageBubbleProps = {
+    message: Message;
+  };
+
+  type OtherUserMessageBubbleProps = {
+    message: Message;
+  };
+
+  // New component for the current user's message bubble
+  const CurrentUserMessageBubble: React.FC<CurrentUserMessageBubbleProps> = ({ message }) => {
+    return (
+      <div className="chat-bubble-current flex flex-col items-start bg-blue-500 text-white p-2 rounded-lg max-w-[387px] ml-auto">
+        <p>{message.text}</p>
+        <div className="text-xs mt-4">{message.created.toLocaleString()}</div>
+      </div>
+    );
+  };
+
+  // New component for other users' message bubble
+  const OtherUserMessageBubble: React.FC<OtherUserMessageBubbleProps> = ({ message }) => {
+    return (
+      <div className="chat-bubble-other flex flex-col items-start bg-gray-200 p-2 rounded-lg max-w-[387px]">
+        <p>{message.text}</p>
+        <p className="text-xs mt-4">
+          {message.created.toLocaleString()}
+        </p>
+      </div>
+    );
+  };
+
+
 
   useEffect(() => {
     // If not connected yet, return
@@ -153,8 +206,8 @@ export default function Chat({ }) {
     setCurrentChannel(channels[0])
   }
 
-  const handleCreateChannel = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleCreateChannel = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     // Create new channel in backend
     const newChannel = await fetch(`/api/Channels`, {
@@ -182,70 +235,62 @@ export default function Chat({ }) {
   return (
     <>
       <PersistentDrawer channels={channels} />
-
-      <div>
-        <List
-          sx={{
-            overflowY: 'auto',
-            maxHeight: 'calc(100vh - 64px - 48px - 48px - 16px - 16px)',  
-            maxWidth: 800,
-            padding: '0',
-            '& .MuiListItem-root': {
-              display: 'flex',
-              alignItems: 'flex-start',
-              padding: '4px 8px',
-            },
-            '& .MuiAvatar-root': {
-              marginRight: '8px',
-            },
-            '& .chat-bubble': {
-              backgroundColor: '#007BFF',
-              color: '#fff',
-              borderRadius: '15px',
-              padding: '8px 12px',
-              maxWidth: '70%',
-              wordBreak: 'break-word',
-            },
-            '& .message-info': {
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-start',
-            },
-          }}
+      <List
+        sx={{
+          overflowY: 'scroll',
+          maxHeight: '850px',
+          maxWidth: 800,
+          padding: '0',
+          '& .MuiListItem-root': {
+            display: 'flex',
+            // alignItems: 'flex-start',
+            padding: '4px 8px',
+          },
+          '& .MuiAvatar-root': {
+            marginRight: '8px',
+          },
+          '& .chat-bubble': {
+            backgroundColor: '#007BFF',
+            color: '#fff',
+            borderRadius: '15px',
+            padding: '8px 12px',
+            maxWidth: '70%',
+            wordBreak: 'break-word',
+          },
+          '& .message-info': {
+            display: 'flex',
+            flexDirection: 'column',
+            // alignItems: 'flex-start',
+          },
+        }}
+      >
+        {messages.map((message) => (
+          <ListItem key={message.id}>
+            {message.userName === currentUser ? (
+              <CurrentUserMessageBubble message={message} />
+            ) : (
+              <OtherUserMessageBubble message={message} />
+            )}
+          </ListItem>
+        ))}
+      </List>
+      <form onSubmit={handleSubmit} className="flex items-center space-x-2 mt-4 mx-4">
+        <TextField
+          id="outlined-basic"
+          variant="outlined"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          className="flex-grow"
+          multiline
+          maxRows={4}
+        />
+        <button
+          type="submit"
+          className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
         >
-          {messages.map((message) => (
-            <ListItem key={message.id}>
-              {/* <Avatar alt={message.userName} src={message.userAvatarUrl} /> */}
-              <div className="message-info">
-                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                  {message.userName}
-                </Typography>
-                <div className="chat-bubble">{message.text}</div>
-                <Typography variant="caption">{message.created.toLocaleString()}</Typography>
-              </div>
-            </ListItem>
-          ))}
-        </List>
-        <div>
-          <form onSubmit={handleSubmit} className="flex items-center space-x-2">
-            <TextField
-              id="outlined-basic"
-              variant="outlined"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              className="flex-grow"
-              multiline
-              maxRows={4}
-            />
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
-            >
-              Send
-            </button>
-          </form>
-        </div>
-      </div>
+          Send
+        </button>
+      </form>
     </>
   )
 }
