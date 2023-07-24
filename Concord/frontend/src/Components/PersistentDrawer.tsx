@@ -23,9 +23,6 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import AddIcon from '@mui/icons-material/Add';
 
 
-const drawerWidth = 287;
-
-
 interface PersistentDrawerProps {
 	channels: {
 		id: string;
@@ -35,6 +32,7 @@ interface PersistentDrawerProps {
   onChannelClick: (channelId: string) => void; 
 }
 
+const drawerWidth = 287;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
 	open?: boolean;
