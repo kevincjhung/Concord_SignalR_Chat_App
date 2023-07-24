@@ -46,7 +46,7 @@ export default function Chat() {
   const [currentChannel, setCurrentChannel] = useState("3");
 
   // TODO: Current user is hardcoded for now. Make currernt user messages on the right, everyone else's on the left 
-  const [currentUser, setCurrentUser] = useState("witty_wordsmith");
+  const [currentUser, setCurrentUser] = useState("Ahmed Khan");
 
   // Scroll to the bottom of messages
   const messageEndRef = useRef<HTMLDivElement>(null);
@@ -177,7 +177,7 @@ export default function Chat() {
       },
       body: JSON.stringify({
         text: input,
-        userName: "witty_wordsmith"
+        userName: "Emily Rossi",
       })
     })
       .then(res => res.json())
@@ -243,6 +243,7 @@ export default function Chat() {
           sx={{
             overflowY: 'scroll',
             maxHeight: '850px',
+            minHeight: '850px',
             padding: '0',
             '&::-webkit-scrollbar': {
               display: 'none'
