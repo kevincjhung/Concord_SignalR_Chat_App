@@ -63,9 +63,15 @@ export default function Chat() {
   // New component for the current user's message bubble
   const CurrentUserMessageBubble: React.FC<CurrentUserMessageBubbleProps> = ({ message }) => {
     return (
-      <div className="chat-bubble-current flex flex-col items-start bg-blue-500 text-white p-2 rounded-lg max-w-[387px] ml-auto">
+      <div className="chat-bubble-current bg-blue-500 text-white p-4 rounded-lg max-w-[387px] ml-auto ">
+        <div className="flex flex-col items-start"> 
+          <div className="flex items-center space-x-2 mb-4">
+            <Avatar alt="" src="" />
+            <p className="font-bold">{message.userName}</p>
+          </div>
+        </div>
         <p>{message.text}</p>
-        <div className="text-xs mt-4">{message.created.toLocaleString()}</div>
+        <p className="text-xs mt-4">{message.created.toLocaleString()}</p>
       </div>
     );
   };
@@ -73,11 +79,16 @@ export default function Chat() {
   // New component for other users' message bubble
   const OtherUserMessageBubble: React.FC<OtherUserMessageBubbleProps> = ({ message }) => {
     return (
-      <div className="chat-bubble-other flex flex-col items-start bg-gray-200 p-2 rounded-lg max-w-[387px]">
+      <div className="chat-bubble-current bg-gray-200 p-2 rounded-lg max-w-[387px] mr-auto p-4">
+        <div className="flex flex-col items-start"> 
+          <div className="flex items-center space-x-2 mb-4">
+            <Avatar alt="" src="" />
+            <p className="font-bold">{message.userName}</p>
+          </div>
+          
+        </div>
         <p>{message.text}</p>
-        <p className="text-xs mt-4">
-          {message.created.toLocaleString()}
-        </p>
+        <p className="text-xs mt-4">{message.created.toLocaleString()}</p>
       </div>
     );
   };
@@ -226,7 +237,7 @@ export default function Chat() {
 
   return (
     <div className='flex flex-col items-center'>
-      <PersistentDrawer channels={channels} currentChannel={currentChannel} onChannelClick={handleChannelClick}/>
+      <PersistentDrawer channels={channels} currentChannel={currentChannel} onChannelClick={handleChannelClick} />
       <div className="w-full max-w-[927px] min-w-[600px]">
         <List
           sx={{
@@ -234,7 +245,8 @@ export default function Chat() {
             maxHeight: '850px',
             padding: '0',
             '&::-webkit-scrollbar': {
-              display: 'none'},
+              display: 'none'
+            },
             backgroundColor: '#fff',
           }}
         >
@@ -265,7 +277,7 @@ export default function Chat() {
             Send
           </button>
         </form>
-        </div>
+      </div>
     </div>
   )
 }
