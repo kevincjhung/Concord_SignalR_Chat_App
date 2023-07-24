@@ -233,9 +233,9 @@ export default function Chat() {
   // min 555 max 1047
 
   return (
-    <div >
+    <div className='flex flex-col items-center'>
       <PersistentDrawer channels={channels} />
-      <div className="max-w-[927px] min-w-[500px] ">
+      <div className="w-full max-w-[927px] min-w-[600px]">
         <List
           sx={{
             overflowY: 'scroll',
