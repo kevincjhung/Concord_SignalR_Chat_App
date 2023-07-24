@@ -235,14 +235,16 @@ export default function Chat() {
   return (
     <div >
       <PersistentDrawer channels={channels} />
-      <div className="bg-red-600 max-w-[927px] min-w-[555px]">
+      <div className="max-w-[927px] min-w-[500px] ">
         <List
           sx={{
             overflowY: 'scroll',
             maxHeight: '850px',
-            minWidth: '555px',
             padding: '0',
+            '&::-webkit-scrollbar': {
+              display: 'none'},
             backgroundColor: '#fff',
+            
           }}
         >
           {messages.map((message) => (
@@ -255,7 +257,7 @@ export default function Chat() {
             </ListItem>
           ))}
         </List>
-        <form onSubmit={handleSubmit} className="flex items-center space-x-2 mt-4 mx-4 ">
+        <form onSubmit={handleSubmit} className="flex items-center space-x-2 m-4 ">
           <TextField
             id="outlined-basic"
             variant="outlined"
