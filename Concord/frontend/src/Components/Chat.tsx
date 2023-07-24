@@ -230,7 +230,6 @@ export default function Chat() {
     setNewChannelName("");
   };
 
-  // min 555 max 1047
 
   return (
     <div >
