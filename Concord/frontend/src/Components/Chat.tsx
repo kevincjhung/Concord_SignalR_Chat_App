@@ -218,10 +218,10 @@ export default function Chat() {
     setNewChannelName("");
   };
 
+
   const handleChannelClick = (channelId: string) => {
     setCurrentChannel(channelId.toString());
   };
-
 
 
   return (
