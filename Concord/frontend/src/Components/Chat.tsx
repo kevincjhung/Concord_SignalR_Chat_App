@@ -9,7 +9,7 @@ import SendIcon from '@mui/icons-material/Send';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import { List, ListItem, Avatar, TextField } from '@mui/material';
+import { List, ListItem, ListItemText, Avatar, TextField } from '@mui/material';
 
 // Components
 import PersistentDrawer from "./PersistentDrawer";
@@ -17,19 +17,9 @@ import PersistentDrawer from "./PersistentDrawer";
 // Custom Hook
 import useSignalR from "../useSignalR";
 
-// Style for the modal
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
 
+
+// Type
 type Message = {
   id: number;
   text: string;
@@ -37,8 +27,6 @@ type Message = {
   created: Date;
   channelId: number;
 }
-
-
 
 export default function Chat() {
 
@@ -231,10 +219,15 @@ export default function Chat() {
   };
 
 
+  const handleChannelClick = (channelId: string) => {
+    setCurrentChannel(channelId.toString());
+  };
+
+
   return (
-    <div >
-      <PersistentDrawer channels={channels} />
-      <div className="max-w-[927px] min-w-[500px] ">
+    <div className='flex flex-col items-center'>
+      <PersistentDrawer channels={channels} currentChannel={currentChannel} onChannelClick={handleChannelClick}/>
+      <div className="w-full max-w-[927px] min-w-[600px]">
         <List
           sx={{
             overflowY: 'scroll',
@@ -243,7 +236,6 @@ export default function Chat() {
             '&::-webkit-scrollbar': {
               display: 'none'},
             backgroundColor: '#fff',
-            
           }}
         >
           {messages.map((message) => (
