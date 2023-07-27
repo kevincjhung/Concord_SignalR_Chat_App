@@ -37,13 +37,8 @@ export default function Chat() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [newChannelName, setNewChannelName] = useState("");
-
-
-  // TODO: fetch the actual list of channels from backend
   const [channels, setChannels] = useState([]);
-
-  // TODO: make this dynamic, fetch current list of channels from backend
-  const [currentChannel, setCurrentChannel] = useState("3");
+  const [currentChannel, setCurrentChannel] = useState("4");
 
   // TODO: Current user is hardcoded for now. Make currernt user messages on the right, everyone else's on the left 
   const [currentUser, setCurrentUser] = useState("Ahmed Khan");
@@ -59,6 +54,7 @@ export default function Chat() {
   type OtherUserMessageBubbleProps = {
     message: Message;
   };
+
 
   // New component for the current user's message bubble
   const CurrentUserMessageBubble: React.FC<CurrentUserMessageBubbleProps> = ({ message }) => {
@@ -177,7 +173,7 @@ export default function Chat() {
       },
       body: JSON.stringify({
         text: input,
-        userName: "Emily Rossi",
+        userName: "Aisha Patel",
       })
     })
       .then(res => res.json())
