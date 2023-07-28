@@ -21,6 +21,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import AddIcon from '@mui/icons-material/Add';
+import { Avatar } from '@mui/material';
 
 
 interface PersistentDrawerProps {
@@ -101,7 +102,7 @@ export default function PersistentDrawer({ channels, currentChannel, onChannelCl
 		<Box sx={{ display: 'flex' }}>
 			<CssBaseline />
 			<AppBar position="fixed" open={open}>
-				<Toolbar>
+				<Toolbar className="flex justify-between w-full">
 					<IconButton
 						color="inherit"
 						aria-label="open drawer"
@@ -114,6 +115,7 @@ export default function PersistentDrawer({ channels, currentChannel, onChannelCl
 					<Typography variant="h6" noWrap component="div">
 						Concord - A Fly Chat Application
 					</Typography>
+					<Avatar></Avatar>
 				</Toolbar>
 			</AppBar>
 			<Drawer
@@ -138,7 +140,7 @@ export default function PersistentDrawer({ channels, currentChannel, onChannelCl
 				<List>
 					<ListItem disablePadding>
 						<ListItemButton 
-							// onClick={handleAddChannel}
+							// onClick={handleAddChannel
 						>
 							<ListItemIcon>
 								<AddIcon />
