@@ -43,11 +43,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGet("/", () => {
+app.MapGet("/aaa", () => {
     return "THE APPLICATION IS RUNNING";
 });
 
 app.MapHub<ChatHub>("/r/chat");
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
+app.MapFallbackToFile("index.html");
 
 app.Run();
 

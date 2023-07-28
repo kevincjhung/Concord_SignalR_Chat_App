@@ -98,3 +98,4 @@
 /Users/kevincjhung/Documents/GitHub/portfolio/bcit_projects/Concord_SignalR_Chat_App/Concord/obj/Debug/net7.0/Concord.pdb
 /Users/kevincjhung/Documents/GitHub/portfolio/bcit_projects/Concord_SignalR_Chat_App/Concord/obj/Debug/net7.0/Concord.genruntimeconfig.cache
 /Users/kevincjhung/Documents/GitHub/portfolio/bcit_projects/Concord_SignalR_Chat_App/Concord/obj/Debug/net7.0/ref/Concord.dll
+/Users/kevincjhung/Documents/GitHub/portfolio/bcit_projects/Concord_SignalR_Chat_App/Concord/bin/Debug/net7.0/Concord.staticwebassets.runtime.json
