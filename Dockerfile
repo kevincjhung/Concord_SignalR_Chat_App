@@ -18,11 +18,11 @@ FROM node:16 AS frontend-builder
 WORKDIR /app
 
 # Copy frontend project files
-COPY frontend/package.json frontend/yarn.lock ./
+COPY Concord/frontend/package.json Concord/frontend/yarn.lock ./
 RUN yarn install
 
 # Copy frontend source code
-COPY frontend/ ./
+COPY Concord/frontend/ ./
 RUN yarn build
 
 # Build final image
@@ -34,7 +34,7 @@ WORKDIR /app
 COPY --from=backend-builder /app/Concord/out ./
 
 # Copy frontend assets
-COPY --from=frontend-builder /app/wwwroot ./wwwroot
+COPY Concord/wwwroot ./wwwroot
 
 # Set environment variables
 ENV ASPNETCORE_URLS=http://+:5000
