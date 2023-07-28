@@ -1,11 +1,10 @@
 # Build backend image
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS backend-builder
 
-WORKDIR /app
+WORKDIR /Concord
 
 # Copy backend project files
-COPY Concord/*.csproj ./Concord/
-WORKDIR /app/Concord
+COPY Concord/*.csproj ./
 RUN dotnet restore
 
 # Copy backend source code
@@ -15,7 +14,7 @@ RUN dotnet publish -c Release -o out
 # Build frontend image
 FROM node:16 AS frontend-builder
 
-WORKDIR /app
+WORKDIR /Concord
 
 # Copy frontend project files
 COPY Concord/frontend/package.json Concord/frontend/yarn.lock ./
@@ -28,10 +27,10 @@ RUN yarn build
 # Build final image
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
 
-WORKDIR /app
+WORKDIR /Concord
 
 # Copy backend binaries
-COPY --from=backend-builder /app/Concord/out ./
+COPY --from=backend-builder /Concord/out ./
 
 # Copy frontend assets
 COPY Concord/wwwroot ./wwwroot
