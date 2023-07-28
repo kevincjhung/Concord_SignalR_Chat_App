@@ -19,23 +19,21 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import AddIcon from '@mui/icons-material/Add';
-
-
-
-const drawerWidth = 240;
+import { Avatar } from '@mui/material';
 
 
 interface PersistentDrawerProps {
 	channels: {
-		id: number;
+		id: string;
 		name: string;
 	}[];
+	currentChannel: string; 
+  onChannelClick: (channelId: string) => void; 
 }
 
+const drawerWidth = 287;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
 	open?: boolean;
@@ -55,6 +53,8 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
 		marginLeft: 0,
 	}),
 }));
+
+
 
 interface AppBarProps extends MuiAppBarProps {
 	open?: boolean;
@@ -86,7 +86,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 	justifyContent: 'flex-end',
 }));
 
-export default function PersistentDrawer({ channels }: PersistentDrawerProps) {
+export default function PersistentDrawer({ channels, currentChannel, onChannelClick }: PersistentDrawerProps) {
 	const theme = useTheme();
 	const [open, setOpen] = React.useState(false);
 
@@ -102,7 +102,7 @@ export default function PersistentDrawer({ channels }: PersistentDrawerProps) {
 		<Box sx={{ display: 'flex' }}>
 			<CssBaseline />
 			<AppBar position="fixed" open={open}>
-				<Toolbar>
+				<Toolbar className="flex justify-between w-full">
 					<IconButton
 						color="inherit"
 						aria-label="open drawer"
@@ -115,6 +115,7 @@ export default function PersistentDrawer({ channels }: PersistentDrawerProps) {
 					<Typography variant="h6" noWrap component="div">
 						Concord - A Fly Chat Application
 					</Typography>
+					<Avatar></Avatar>
 				</Toolbar>
 			</AppBar>
 			<Drawer
@@ -138,7 +139,9 @@ export default function PersistentDrawer({ channels }: PersistentDrawerProps) {
 				<Divider />
 				<List>
 					<ListItem disablePadding>
-						<ListItemButton>
+						<ListItemButton 
+							// onClick={handleAddChannel
+						>
 							<ListItemIcon>
 								<AddIcon />
 							</ListItemIcon>
@@ -148,7 +151,10 @@ export default function PersistentDrawer({ channels }: PersistentDrawerProps) {
 					<Divider />
 					{channels.map((channel) => (
 						<ListItem key={channel.id} disablePadding>
-							<ListItemButton>
+							<ListItemButton
+								selected={channel.id.toString() === currentChannel}
+                onClick={() => onChannelClick(channel.id.toString())}
+							>
 								<ListItemIcon>
 									<AccountCircleOutlinedIcon />
 								</ListItemIcon>

@@ -3,41 +3,19 @@ import * as React from 'react';
 import { useEffect, useState, useRef } from "react";
 import "../App.css";
 
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import SendIcon from '@mui/icons-material/Send';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import { List, ListItem, Avatar, TextField } from '@mui/material';
+// MaterialUI
+import { List, ListItem, TextField } from '@mui/material';
 
 // Components
 import PersistentDrawer from "./PersistentDrawer";
+import CurrentUserMessageBubble from './CurrentUserMessageBubble';
+import OtherUserMessageBubble from './OtherUserMessageBubble';
 
 // Custom Hook
 import useSignalR from "../useSignalR";
 
-// Style for the modal
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
-type Message = {
-  id: number;
-  text: string;
-  userName: string;
-  created: Date;
-  channelId: number;
-}
-
+// Import Types
+import { Message } from "common";
 
 
 export default function Chat() {
@@ -49,52 +27,14 @@ export default function Chat() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [newChannelName, setNewChannelName] = useState("");
-
-
-  // TODO: fetch the actual list of channels from backend
   const [channels, setChannels] = useState([]);
+  const [currentChannel, setCurrentChannel] = useState("4");
 
-  // TODO: make this dynamic, fetch current list of channels from backend
-  const [currentChannel, setCurrentChannel] = useState("3");
-
-  // TODO: Current user is hardcoded for now. Make currernt user messages on the right, everyone else's on the left 
-  const [currentUser, setCurrentUser] = useState("witty_wordsmith");
+  // TODO: Current user is hardcoded for now, will be replaced with authentication
+  const [currentUser, setCurrentUser] = useState("Ahmed Khan");
 
   // Scroll to the bottom of messages
   const messageEndRef = useRef<HTMLDivElement>(null);
-
-
-  type CurrentUserMessageBubbleProps = {
-    message: Message;
-  };
-
-  type OtherUserMessageBubbleProps = {
-    message: Message;
-  };
-
-  // New component for the current user's message bubble
-  const CurrentUserMessageBubble: React.FC<CurrentUserMessageBubbleProps> = ({ message }) => {
-    return (
-      <div className="chat-bubble-current flex flex-col items-start bg-blue-500 text-white p-2 rounded-lg max-w-[387px] ml-auto">
-        <p>{message.text}</p>
-        <div className="text-xs mt-4">{message.created.toLocaleString()}</div>
-      </div>
-    );
-  };
-
-  // New component for other users' message bubble
-  const OtherUserMessageBubble: React.FC<OtherUserMessageBubbleProps> = ({ message }) => {
-    return (
-      <div className="chat-bubble-other flex flex-col items-start bg-gray-200 p-2 rounded-lg max-w-[387px]">
-        <p>{message.text}</p>
-        <p className="text-xs mt-4">
-          {message.created.toLocaleString()}
-        </p>
-      </div>
-    );
-  };
-
-
 
   useEffect(() => {
     // If not connected yet, return
@@ -138,13 +78,11 @@ export default function Chat() {
     }
   }, [connection, currentChannel]) // when currentChannel changes, fetch messages from new channel
 
-
   useEffect(() => {
     if (messageEndRef.current) {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
-
 
   // use useEffect to fetch list of channels from backend
   useEffect(() => {
@@ -167,9 +105,6 @@ export default function Chat() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // This is how you send message to the server over signalR, currently using REST implementation
-    // connection?.invoke("SendMessage", input); 
-
     // send message to the server over REST
     const result = await fetch(`/api/Message/channel/${currentChannel}`, {
       method: "POST",
@@ -178,14 +113,18 @@ export default function Chat() {
       },
       body: JSON.stringify({
         text: input,
-        userName: "witty_wordsmith"
+        userName: "Aisha Patel",
       })
     })
-      .then(res => res.json())
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+      return data
+    })
+    .catch((error) => {
+      console.error(error);
+  });
 
-
-    console.log("App.tsx: sending message to backend, the message is:")
-    console.log(result)
   }
 
   const handleDelete = async (channel: string) => {
@@ -230,19 +169,23 @@ export default function Chat() {
     setNewChannelName("");
   };
 
-  // min 555 max 1047
+
+  const handleChannelClick = (channelId: string) => {
+    setCurrentChannel(channelId.toString());
+  };
+
 
   return (
-    <div >
-      <PersistentDrawer channels={channels} />
-      <div className="max-w-[927px] min-w-[500px] ">
+    <div className='flex flex-col items-center'>
+      <PersistentDrawer channels={channels} currentChannel={currentChannel} onChannelClick={handleChannelClick} />
+      <div className="w-full max-w-[927px] min-w-[600px] p-4">
         <List
           sx={{
             overflowY: 'scroll',
-            maxHeight: '850px',
-            padding: '0',
+            height: 'calc(100vh - 200px)',
             '&::-webkit-scrollbar': {
-              display: 'none'},
+              display: 'none'
+            },
             backgroundColor: '#fff',
             
           }}
@@ -257,7 +200,7 @@ export default function Chat() {
             </ListItem>
           ))}
         </List>
-        <form onSubmit={handleSubmit} className="flex items-center space-x-2 m-4 ">
+        <form onSubmit={handleSubmit} className="flex items-center space-x-2 mx-4 ">
           <TextField
             id="outlined-basic"
             variant="outlined"
@@ -274,7 +217,7 @@ export default function Chat() {
             Send
           </button>
         </form>
-        </div>
+      </div>
     </div>
   )
 }

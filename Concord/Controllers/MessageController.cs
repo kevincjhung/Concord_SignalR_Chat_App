@@ -34,7 +34,8 @@ public class MessageController : ControllerBase
             return NotFound();
         }
 
-        return await _context.Messages.ToListAsync();
+        // return messages, sorted by time created, latest messages first
+        return await _context.Messages.OrderByDescending(m => m.Created).ToListAsync();
     }
 
     // Get a message with a certain message id
