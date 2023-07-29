@@ -3,7 +3,7 @@
 Concord is a real-time chat application designed to showcase modern web technologies and foster efficient communication and collaboration among users. Developed with React, Vite, and TypeScript, it demonstrates how cutting-edge frontend frameworks can deliver a responsive and intuitive user experience.
 <br>
 
-![Concord Preview](./Chat_Interface.png)
+![Concord Preview](./Concord/frontend/public/Chat_Interface.png)
 Photo: Screenshot of the main chat interface
 
 ## Table of Contents
@@ -24,8 +24,7 @@ Photo: Screenshot of the main chat interface
 ## Key Features
 
 Real-Time Communication:
-Our chat application leverages SignalR, enabling real-time bidirectional communication between users. Users can instantly send and receive messages, fostering seamless and interactive conversations.
-
+Our chat application leverages SignalR, enabling real-time bidirectional communication between users. Users can instantly send and receive messages, fostering seamless and interactive conversations
 Multiple Channels:
 The app supports the creation and management of multiple channels, allowing users to engage in distinct conversations based on their interests or topics. The intuitive sidebar interface makes channel selection effortless.
 
