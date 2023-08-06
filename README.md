@@ -1,6 +1,6 @@
 # Concord - A Realtime Chat App Built with .NET and React
 
-Concord is a real-time chat application designed to showcase modern web technologies and foster efficient communication and collaboration among users. Developed with React, Vite, and TypeScript, it demonstrates how cutting-edge frontend frameworks can deliver a responsive and intuitive user experience.
+Concord is a real-time chat application designed to showcase modern web technologies and foster efficient communication and collaboration among users. Developed with React, Vite, and TypeScript.
 <br>
 
 ![Concord Preview](./Concord/frontend/public/Chat_Interface.png)
@@ -25,6 +25,7 @@ Photo: Screenshot of the main chat interface
 
 Real-Time Communication:
 Our chat application leverages SignalR, enabling real-time bidirectional communication between users. Users can instantly send and receive messages, fostering seamless and interactive conversations
+
 Multiple Channels:
 The app supports the creation and management of multiple channels, allowing users to engage in distinct conversations based on their interests or topics. The intuitive sidebar interface makes channel selection effortless.
 
@@ -70,6 +71,32 @@ The frontend adopts MaterialUI as the primary external UI library. Following the
 #### Tailwind CSS
 
 Tailwind CSS works in harmony with MaterialUI to provide a customizable and utility-first CSS framework. Tailwind CSS facilitates effortless styling and layout adjustments, empowering us to craft unique and responsive designs that match our application's specific needs.
+
+## Deployment
+
+Currently, there are some issues with deployment. If you wish to test out the full application, you can clone the repository and run the application locally.
+
+The application is set up to use a Postgres database. You will need to create an instance of a cloud Postgres database. Within the "Concord" directory, create a .env file, and add a connection string to the database. The connection string should be in the following format:
+
+```
+  DATABASE_CONNECTION_STRING="DATABASE_CONNECTION_STRING="Server=containers-us-west-000.railway.app;Port=0000;User Id=postgresuser;Password=password1;Database=database1"
+```
+
+The frontend and backend are set up to run on different ports, you will need to run the app on two separate terminals. 
+
+With one of the terminals: 
+
+cd into the "/Concord" directory, then run: 
+
+```bash
+  dotnet run watch --urls http://0.0.0.0:5001
+```
+
+With another terminal, cd into the "/Concord/frontend" directory, then run: 
+
+```bash
+  npm run dev
+```
 
 ## Features To Be Implemented
 

@@ -52,7 +52,7 @@ export default function Chat() {
     fetch(`/api/Message/channel/${currentChannel}`)
       .then((res) => res.json())
       .then((data) => {
-        // console.log("App.tsx: getting all the messages from backend, the messages are:")
+        console.log("App.tsx: getting all the messages from backend, the messages are:")
         setMessages(data.map((m: Message) => ({ ...m, created: new Date(m.created) })));
       })
       .catch((error) => {

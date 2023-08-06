@@ -1,11 +1,71 @@
 {
   "Version": 1,
-  "Hash": "uAkJUilkfuPTH2OKj7p6IEB9h2PL6mCWNMiyimPDIYI=",
+  "Hash": "7/sUE0Mdp/khuPaSSK2si3rQD/CBDtqgaLu4tbUQj24=",
   "Source": "Concord",
   "BasePath": "_content/Concord",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "Concord/wwwroot",
+      "Source": "Concord",
+      "ContentRoot": "/Users/kevincjhung/Documents/GitHub/portfolio/bcit_projects/Concord_SignalR_Chat_App/Concord/wwwroot/",
+      "BasePath": "_content/Concord",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/Users/kevincjhung/Documents/GitHub/portfolio/bcit_projects/Concord_SignalR_Chat_App/Concord/wwwroot/assets/index-564bb8b8.css",
+      "SourceId": "Concord",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/kevincjhung/Documents/GitHub/portfolio/bcit_projects/Concord_SignalR_Chat_App/Concord/wwwroot/",
+      "BasePath": "_content/Concord",
+      "RelativePath": "assets/index-564bb8b8.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/index-564bb8b8.css"
+    },
+    {
+      "Identity": "/Users/kevincjhung/Documents/GitHub/portfolio/bcit_projects/Concord_SignalR_Chat_App/Concord/wwwroot/assets/index-72bea74b.js",
+      "SourceId": "Concord",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/kevincjhung/Documents/GitHub/portfolio/bcit_projects/Concord_SignalR_Chat_App/Concord/wwwroot/",
+      "BasePath": "_content/Concord",
+      "RelativePath": "assets/index-72bea74b.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/index-72bea74b.js"
+    },
+    {
+      "Identity": "/Users/kevincjhung/Documents/GitHub/portfolio/bcit_projects/Concord_SignalR_Chat_App/Concord/wwwroot/index.html",
+      "SourceId": "Concord",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/kevincjhung/Documents/GitHub/portfolio/bcit_projects/Concord_SignalR_Chat_App/Concord/wwwroot/",
+      "BasePath": "_content/Concord",
+      "RelativePath": "index.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/index.html"
+    }
+  ]
 }
