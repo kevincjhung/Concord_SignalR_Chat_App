@@ -79,7 +79,7 @@ Currently, there are some issues with deployment. If you wish to test out the fu
 The application is set up to use a Postgres database. You will need to create an instance of a cloud Postgres database. Within the "Concord" directory, create a .env file, and add a connection string to the database. The connection string should be in the following format:
 
 ```
-  DATABASE_CONNECTION_STRING="DATABASE_CONNECTION_STRING="Server=containers-us-west-000.railway.app;Port=0000;User Id=postgresuser;Password=password1;Database=database1"
+  DATABASE_CONNECTION_STRING="Server=containers-us-west-000.railway.app;Port=0000;User Id=postgresuser;Password=password1;Database=database1"
 ```
 
 The frontend and backend are set up to run on different ports, you will need to run the app on two separate terminals. 
