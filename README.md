@@ -96,6 +96,10 @@ With another terminal, cd into the "/Concord/frontend" directory, then run:
 
 ```bash
   npm run dev
+
+  // or 
+
+  yarn dev
 ```
 
 ## Features To Be Implemented
