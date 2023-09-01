@@ -41,6 +41,8 @@
 
 - Read receipts
 
+- Fix Dockerfile for deployment
+
 ## Stuck 
 
 
