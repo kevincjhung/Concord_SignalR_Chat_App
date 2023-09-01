@@ -8,7 +8,6 @@ import About from "./Components/About";
 import './index.css'
 
 
-
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
@@ -17,5 +16,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Route path="/about" element={<About />} />
       </Routes>
       </BrowserRouter>
-  </React.StrictMode>,
+  </React.StrictMode>
 )

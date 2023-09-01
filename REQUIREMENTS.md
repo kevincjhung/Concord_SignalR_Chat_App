@@ -10,6 +10,13 @@
     Take all the code for createChannel, DeleteChannel, put it in the PersistentDrawer
 
 - Rewrite the database
+    Users
+      Users have other users that they are connected to
+      Users can add other users in a conversation
+    
+    Messages
+
+    Channels (Change this to conversation)
 
 - Create UI that allows you to delete a channel.
 
