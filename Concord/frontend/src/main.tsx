@@ -6,6 +6,7 @@ import App from './App'
 import About from "./Components/About";
 
 import './index.css'
+import CreateConversation from './Components/CreateConversation';
 
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -13,7 +14,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/CreateConversation" element={<CreateConversation />} />
       </Routes>
       </BrowserRouter>
   </React.StrictMode>
