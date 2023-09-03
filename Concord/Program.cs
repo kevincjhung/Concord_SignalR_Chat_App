@@ -43,7 +43,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGet("/aaa", () => {
+app.MapGet("/", () => {
     return "THE APPLICATION IS RUNNING";
 });
 
