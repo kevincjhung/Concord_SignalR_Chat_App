@@ -1,6 +1,8 @@
 // Libraries
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
+
 
 // MaterialUI
 import Box from '@mui/material/Box';
@@ -24,13 +26,14 @@ import AddIcon from '@mui/icons-material/Add';
 import { Avatar } from '@mui/material';
 
 
+
 interface PersistentDrawerProps {
 	channels: {
 		id: string;
 		name: string;
 	}[];
-	currentChannel: string; 
-  onChannelClick: (channelId: string) => void; 
+	currentChannel: string;
+	onChannelClick: (channelId: string) => void;
 }
 
 const drawerWidth = 287;
@@ -89,6 +92,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function PersistentDrawer({ channels, currentChannel, onChannelClick }: PersistentDrawerProps) {
 	const theme = useTheme();
 	const [open, setOpen] = React.useState(false);
+	
 
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -139,9 +143,7 @@ export default function PersistentDrawer({ channels, currentChannel, onChannelCl
 				<Divider />
 				<List>
 					<ListItem disablePadding>
-						<ListItemButton 
-							// onClick={handleAddChannel
-						>
+						<ListItemButton component={Link} to="/CreateConversation">
 							<ListItemIcon>
 								<AddIcon />
 							</ListItemIcon>
@@ -153,7 +155,7 @@ export default function PersistentDrawer({ channels, currentChannel, onChannelCl
 						<ListItem key={channel.id} disablePadding>
 							<ListItemButton
 								selected={channel.id.toString() === currentChannel}
-                onClick={() => onChannelClick(channel.id.toString())}
+								onClick={() => onChannelClick(channel.id.toString())}
 							>
 								<ListItemIcon>
 									<AccountCircleOutlinedIcon />
