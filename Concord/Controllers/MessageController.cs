@@ -102,11 +102,21 @@ public class MessageController : ControllerBase
         return Message;
     }
     */
-
+    
+    
+    // "Message": "Le Message",
+    // "Text": "Your text",
+    // "UserName" : "Bob McBobFace",
+    // "created": "2023-09-03T16:57:01.338Z",
+    // "ChannelId": 3
+    // NOTE the id in the query params is not used
+    
     // PUT api/Message/5
     [HttpPut("{id}")]
     public async Task<IActionResult> PutMessage(int id, Message message)
-    {
+    {   
+
+    
         if (id != message.Id)
         {
             return BadRequest();
@@ -124,7 +134,7 @@ public class MessageController : ControllerBase
                 return NotFound();
             }
             else
-            {
+            {  
                 throw;
             }
         }

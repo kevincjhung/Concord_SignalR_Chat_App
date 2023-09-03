@@ -101,13 +101,3 @@ With another terminal, cd into the "/Concord/frontend" directory, then run:
 
   yarn dev
 ```
-
-## Features To Be Implemented
-
-**User Authentication and Secure Access**
-
-Implement user authentication and authorization to ensure secure access to the application. Users will be required to register and log in to access the chat application.
-
-**Media & files sharing**
-
-Integrate an cloud object storage service such as AWS S3 or Azure Blob, this will allow users to share various media files seamlessly. Implement functionality for uploading, sending, and displaying images, videos, and documents within chat conversations.
