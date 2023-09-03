@@ -24,7 +24,7 @@ export default function LandingPage() {
   return (
     <Container maxWidth="sm" style={{ textAlign: 'center', paddingTop: '20%' }}>
       <Typography variant="h3" component="h1" gutterBottom>
-        Welcome to the Chat App!
+        Welcome to Concord The Chat App!
       </Typography>
 
       <Button
