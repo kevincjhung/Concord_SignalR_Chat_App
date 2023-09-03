@@ -9,39 +9,21 @@ import Container from '@mui/material/Container';
 
 
 export default function LandingPage() {
-	const handleMouseOver = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.style.backgroundColor = 'blue';
-		e.currentTarget.style.color = 'white';
-   
-  };
 
-  const handleMouseOut = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.style.backgroundColor = 'white';
-		e.currentTarget.style.color = 'blue';
-    
-  };
 
   return (
     <Container maxWidth="sm" style={{ textAlign: 'center', paddingTop: '20%' }}>
       <Typography variant="h3" component="h1" gutterBottom>
-        Welcome to Concord The Chat App!
+        Welcome to Concord, A Realtime Chat Application!
       </Typography>
 
       <Button
         className="mt-8"
-				component={Link}
         variant="outlined"
         color="primary"
         size="large"
+				component={Link}
         to="/Conversations"
-        style={{
-          color: 'blue',
-          borderColor: 'blue',
-          backgroundColor: 'white',
-          transition: 'background-color 0.3s ease, transform 0.5s ease',
-        }}
-        onMouseOver={handleMouseOver}
-        onMouseOut={handleMouseOut}
       >
         Log In
       </Button>
