@@ -11,19 +11,7 @@ namespace Concord.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Email",
-                table: "Users",
-                type: "text",
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "FirstName",
-                table: "Users",
-                type: "text",
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "LastName",
+                name: "ProfilePicURL",
                 table: "Users",
                 type: "text",
                 nullable: true);
@@ -33,15 +21,7 @@ namespace Concord.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Email",
-                table: "Users");
-
-            migrationBuilder.DropColumn(
-                name: "FirstName",
-                table: "Users");
-
-            migrationBuilder.DropColumn(
-                name: "LastName",
+                name: "ProfilePicURL",
                 table: "Users");
         }
     }

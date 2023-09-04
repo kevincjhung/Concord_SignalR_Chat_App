@@ -92,6 +92,9 @@ namespace Concord.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("text");
 
+                    b.Property<string>("ProfilePicURL")
+                        .HasColumnType("text");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("text");

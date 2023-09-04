@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Concord.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230904220401_extend_user_model")]
+    [Migration("20230904223000_extend_user_model")]
     partial class extendusermodel
     {
         /// <inheritdoc />
@@ -93,6 +93,9 @@ namespace Concord.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("LastName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProfilePicURL")
                         .HasColumnType("text");
 
                     b.Property<string>("UserName")
