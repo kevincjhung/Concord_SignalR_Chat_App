@@ -15,6 +15,7 @@ public class Message
   public DateTime Created { get; set; }
   public int ChannelId { get; set; }
   public Channel? Channel { get; set; }
+  public ICollection<MessageAttachment>? Attachments { get; set; }
 }
 
 /**

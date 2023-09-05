@@ -3,7 +3,6 @@ using System;
 using Concord.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,11 +11,9 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Concord.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230421214206_AddControllersUsersMessages")]
-    partial class AddControllersUsersMessages
+    partial class DatabaseContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,6 +75,34 @@ namespace Concord.Migrations
                     b.ToTable("Messages");
                 });
 
+            modelBuilder.Entity("Concord.Models.MessageAttachment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FileType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FileURL")
+                        .HasColumnType("text");
+
+                    b.Property<int>("MessageId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MessageId");
+
+                    b.ToTable("MessageAttachments");
+                });
+
             modelBuilder.Entity("Concord.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -85,6 +110,20 @@ namespace Concord.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProfilePicURL")
+                        .HasColumnType("text");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -106,9 +145,25 @@ namespace Concord.Migrations
                     b.Navigation("Channel");
                 });
 
+            modelBuilder.Entity("Concord.Models.MessageAttachment", b =>
+                {
+                    b.HasOne("Concord.Models.Message", "Message")
+                        .WithMany("Attachments")
+                        .HasForeignKey("MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Message");
+                });
+
             modelBuilder.Entity("Concord.Models.Channel", b =>
                 {
                     b.Navigation("Messages");
+                });
+
+            modelBuilder.Entity("Concord.Models.Message", b =>
+                {
+                    b.Navigation("Attachments");
                 });
 #pragma warning restore 612, 618
         }
