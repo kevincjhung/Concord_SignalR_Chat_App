@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.OpenApi;
 
 DotNetEnv.Env.Load();
 
-var connectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING");
+var connectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING_PROD");
 
 
 var builder = WebApplication.CreateBuilder(args);
