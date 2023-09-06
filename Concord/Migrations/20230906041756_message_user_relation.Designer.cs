@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Concord.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230905002827_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230906041756_message_user_relation")]
+    partial class messageuserrelation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,13 +67,14 @@ namespace Concord.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ChannelId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Messages");
                 });
@@ -145,7 +146,13 @@ namespace Concord.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Concord.Models.User", "User")
+                        .WithMany("Messages")
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Channel");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Concord.Models.MessageAttachment", b =>
@@ -167,6 +174,11 @@ namespace Concord.Migrations
             modelBuilder.Entity("Concord.Models.Message", b =>
                 {
                     b.Navigation("Attachments");
+                });
+
+            modelBuilder.Entity("Concord.Models.User", b =>
+                {
+                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }

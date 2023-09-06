@@ -16,4 +16,5 @@ public class User {
     public string? Email { get; set; }
     public string? ProfilePicURL { get; set; }
 
+    public ICollection<Message>? Messages { get; set; }
 }

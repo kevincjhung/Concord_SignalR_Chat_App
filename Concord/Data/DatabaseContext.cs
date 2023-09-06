@@ -15,10 +15,12 @@ namespace Concord.Models
 			modelbuilder.Entity<Message>()
 				.Property(e => e.Created)
 				.HasDefaultValueSql("now()");
-      
-			modelbuilder.Entity<User>()
-				.Property(u => u.UserName)
-				.IsRequired();
+    
+      modelbuilder
+        .Entity<User>()
+        .HasMany(u => u.Messages) // User can have many Messages
+        .WithOne(m => m.User) // Message belongs to one User
+        .HasForeignKey(m => m.UserId); // Foreign key property in Message
       
 			modelbuilder
         .Entity<Message>()
