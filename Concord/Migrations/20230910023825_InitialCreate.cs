@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Concord.Migrations
 {
     /// <inheritdoc />
-    public partial class messageuserrelation : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -35,7 +35,7 @@ namespace Concord.Migrations
                     UserName = table.Column<string>(type: "text", nullable: false),
                     FirstName = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: false),
                     ProfilePicURL = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -50,7 +50,7 @@ namespace Concord.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Text = table.Column<string>(type: "text", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: true),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
                     Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     ChannelId = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -67,7 +67,8 @@ namespace Concord.Migrations
                         name: "FK_Messages_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,8 +78,8 @@ namespace Concord.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     FileName = table.Column<string>(type: "text", nullable: false),
-                    FileURL = table.Column<string>(type: "text", nullable: true),
-                    FileType = table.Column<string>(type: "text", nullable: true),
+                    FileURL = table.Column<string>(type: "text", nullable: false),
+                    FileType = table.Column<string>(type: "text", nullable: false),
                     MessageId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>

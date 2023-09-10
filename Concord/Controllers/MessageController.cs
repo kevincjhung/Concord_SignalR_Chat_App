@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json.Linq;
 
 using Concord.Models;
 using Concord.Hubs;
@@ -67,13 +68,78 @@ public class MessageController : ControllerBase
 
         return messages;
     }
-    
 
     // POST: api/Message/channel/{channelId}
+    //     {
+    //   "Text": "messaegreg",
+    //   "User": {
+    //     "UserId": 1,
+    //     "Email": "aksdfa@ahsiud.com",
+    //     "FirstName": "Bob",
+    //     "LastName": "The LastName field is required.",
+    //     "UserName": "The UserName field is required."
+    //   },
+    //   "Text": "fshdikuf",
+    //   "message": "sfhdu",
+    //   "Message": "shudfw"
+    // }
     [HttpPost("channel/{channelId}")]
-    public async Task<ActionResult<Message>> PostMessage(int channelId, Message message)
+    public async Task<ActionResult<Message>> PostMessage(
+        int channelId,
+        [FromBody] MessageData messageData
+    )
     {
+        if (messageData.Text == null || !(messageData.Text is string))
+        {
+            // Handle the case where "Text" property is missing or not a string
+            return BadRequest("The 'Text' property is missing or not a string in the JSON object.");
+        }
+
+        // Check if the "UserId" property is present in the JSON object and is an integer
+        if (messageData.UserId == null || !(messageData.UserId is int))
+        {
+            // Handle the case where "UserId" property is missing or not an integer
+            return BadRequest("The 'UserId' property is missing or not an integer in the JSON object.");
+        }
+
+        // Extract the properties from the dynamic object
+        string text = messageData.Text;
+        int userId = messageData.UserId;
+
+
+        // Retrieve the user and create the message in a single query
+        var query = _context.Users
+            .Where(u => u.Id == userId)
+            .Select(
+                u =>
+                    new
+                    {
+                        User = u,
+                        Message = new Message(0, text, DateTime.Now, userId, 1)
+                        {
+                            // Set other properties like Created and ChannelId here
+                            ChannelId = 1,
+                            Text = text,
+                            UserId = userId,
+                            Created = DateTime.UtcNow
+                        }
+                    }
+            );
+
+        var result = await query.FirstOrDefaultAsync();
+
+        if (result == null || result.User == null)
+        {
+            // Handle the case where the user with the given userId is not found.
+            return BadRequest("User not found");
+        }
+
+        Message message = result.Message;
+
+        // Set the correct ChannelId
         message.ChannelId = channelId;
+
+        // Add the message to the context and save changes
         _context.Messages.Add(message);
         await _context.SaveChangesAsync();
 
@@ -82,41 +148,18 @@ public class MessageController : ControllerBase
 
         return CreatedAtAction("GetMessage", new { id = message.Id }, message);
     }
-    
-     
-    /*  Move to MessageController.cs
-    POST: api/Channels/5/Messages
-    [HttpPost("{channelId}/Messages")] 
-    public async Task<Message> PostChannelMessage(int channelId, Message Message)
-    {   
-        Console.WriteLine($"ChannelsController.cs ");
-        Console.WriteLine($"Channel id is: {channelId}, Message: {Message.Text}");
 
-        Message.ChannelId = channelId;
-        _context.Messages.Add(Message); // create new message in database
-        await _context.SaveChangesAsync(); // save changes to database
-
-        // Broadcast to all SignalR clients
-        await _hub.Clients.Group(channelId.ToString()).SendAsync("ReceiveMessage", Message);
-  
-        return Message;
-    }
-    */
-    
-    
     // "Message": "Le Message",
     // "Text": "Your text",
     // "UserName" : "Bob McBobFace",
     // "created": "2023-09-03T16:57:01.338Z",
     // "ChannelId": 3
     // NOTE the id in the query params is not used
-    
+
     // PUT api/Message/5
     [HttpPut("{id}")]
     public async Task<IActionResult> PutMessage(int id, Message message)
-    {   
-
-    
+    {
         if (id != message.Id)
         {
             return BadRequest();
@@ -134,7 +177,7 @@ public class MessageController : ControllerBase
                 return NotFound();
             }
             else
-            {  
+            {
                 throw;
             }
         }

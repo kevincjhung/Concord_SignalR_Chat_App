@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Concord.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230906041756_message_user_relation")]
-    partial class messageuserrelation
+    [Migration("20230910023825_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,7 +67,7 @@ namespace Concord.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -92,9 +92,11 @@ namespace Concord.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("FileType")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("FileURL")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("MessageId")
@@ -116,6 +118,7 @@ namespace Concord.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("FirstName")
@@ -148,7 +151,9 @@ namespace Concord.Migrations
 
                     b.HasOne("Concord.Models.User", "User")
                         .WithMany("Messages")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Channel");
 

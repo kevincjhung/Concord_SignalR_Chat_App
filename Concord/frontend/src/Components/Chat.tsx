@@ -112,8 +112,8 @@ export default function Chat() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        text: input,
-        userName: "Aisha Patel",
+        "Text": input,
+        "UserId": 1 
       })
     })
     .then(res => res.json())
