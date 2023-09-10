@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Concord.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class initialcreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -72,6 +72,30 @@ namespace Concord.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserChannel",
+                columns: table => new
+                {
+                    ChannelId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserChannel", x => new { x.ChannelId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_UserChannel_Channels_ChannelId",
+                        column: x => x.ChannelId,
+                        principalTable: "Channels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserChannel_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MessageAttachments",
                 columns: table => new
                 {
@@ -107,6 +131,11 @@ namespace Concord.Migrations
                 name: "IX_Messages_UserId",
                 table: "Messages",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserChannel_UserId",
+                table: "UserChannel",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -114,6 +143,9 @@ namespace Concord.Migrations
         {
             migrationBuilder.DropTable(
                 name: "MessageAttachments");
+
+            migrationBuilder.DropTable(
+                name: "UserChannel");
 
             migrationBuilder.DropTable(
                 name: "Messages");

@@ -138,6 +138,21 @@ namespace Concord.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("UserChannel", b =>
+                {
+                    b.Property<int>("ChannelId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ChannelId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserChannel");
+                });
+
             modelBuilder.Entity("Concord.Models.Message", b =>
                 {
                     b.HasOne("Concord.Models.Channel", "Channel")
@@ -166,6 +181,21 @@ namespace Concord.Migrations
                         .IsRequired();
 
                     b.Navigation("Message");
+                });
+
+            modelBuilder.Entity("UserChannel", b =>
+                {
+                    b.HasOne("Concord.Models.Channel", null)
+                        .WithMany()
+                        .HasForeignKey("ChannelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Concord.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Concord.Models.Channel", b =>

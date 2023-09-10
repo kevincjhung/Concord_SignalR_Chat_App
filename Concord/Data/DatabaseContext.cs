@@ -37,7 +37,14 @@ namespace Concord.Models
         .WithOne(m => m.User) // Message belongs to one User
         .HasForeignKey(m => m.UserId); // Foreign key property in Message
       
-      
+      modelbuilder.Entity<User>()
+        .HasMany(u => u.Channels) // User can have many Channels
+        .WithMany(c => c.Users) // Channel can have many Users
+        .UsingEntity<Dictionary<string, object>>(
+          "UserChannel",
+          u => u.HasOne<Channel>().WithMany().HasForeignKey("ChannelId"),
+          c => c.HasOne<User>().WithMany().HasForeignKey("UserId")
+        );
       }
 
     public DbSet<Channel> Channels { get; set; }

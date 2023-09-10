@@ -11,4 +11,5 @@ public class Channel {
   public string Name {get; set;}
   public DateTime Created {get; set;}
   public List<Message>? Messages {get; set;}
+  public List<User>? Users {get; set;}
 }
