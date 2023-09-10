@@ -48,7 +48,10 @@ public class ChannelsController : ControllerBase
     // POST: api/Channels
     [HttpPost] 
       public async Task<ActionResult<Channel>> PostChannel(Channel channel)
-    {
+    {   
+         // Set the Created property to UTC time
+        channel.Created = DateTime.UtcNow;
+
         _context.Channels.Add(channel);
         await _context.SaveChangesAsync();
 

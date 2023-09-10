@@ -1,20 +1,27 @@
 namespace Concord.Models;
+
 public class Message
 {
   // custom initializer
-  public Message(int id, string text, string userName, DateTime created) {
-    Id = id;
-    Text = text;
-    UserName = userName;
-    Created = created;
-  }
+  public Message(int id, string text, DateTime created, int userId, int channelId)
+  {
+      Id = id;
+      Text = text;
+      Created = created;
+      Attachments = new List<MessageAttachment>();
+      UserId = userId;
+      ChannelId = channelId;
+    }
 
-  public int Id { get; set; }
-  public string Text { get; set; }
-  public string UserName { get; set; }
-  public DateTime Created { get; set; }
-  public int ChannelId { get; set; }
-  public Channel? Channel { get; set; }
+    public int Id { get; set; }
+    public string Text { get; set; }
+    public int UserId { get; set; } // Foreign key for the User who sent the message
+    public User User { get; set; } // Navigation property for the User who sent the message
+    public DateTime Created { get; set; }
+    public int ChannelId { get; set; }
+    public Channel? Channel { get; set; }
+    
+    public List<MessageAttachment>? Attachments { get; set; }
 }
 
 /**

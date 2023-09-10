@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "kGGLkV9XxWEAtAXLvS2TUyekCL4z4zfO87hvJUYXVnIToHXo2kah+r87Od7NwCWz+BL6l3VvUoQOoIL/zOl/HQ==",
+  "dgSpecHash": "8nC+jdZUCUt/qH4YAUV2lDjDr6lvpwFI57MYUc+IBBKGHWsPWtURago+ef/6cib3KKhw7VUGnCyVY0OgWEvjQw==",
   "success": true,
   "projectFilePath": "/Users/kevincjhung/Documents/GitHub/portfolio/bcit_projects/Concord_SignalR_Chat_App/Concord/Concord.csproj",
   "expectedPackageFiles": [
@@ -31,6 +31,7 @@
     "/Users/kevincjhung/.nuget/packages/microsoft.win32.primitives/4.3.0/microsoft.win32.primitives.4.3.0.nupkg.sha512",
     "/Users/kevincjhung/.nuget/packages/mono.texttemplating/2.2.1/mono.texttemplating.2.2.1.nupkg.sha512",
     "/Users/kevincjhung/.nuget/packages/netstandard.library/1.6.1/netstandard.library.1.6.1.nupkg.sha512",
+    "/Users/kevincjhung/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512",
     "/Users/kevincjhung/.nuget/packages/npgsql/7.0.1/npgsql.7.0.1.nupkg.sha512",
     "/Users/kevincjhung/.nuget/packages/npgsql.entityframeworkcore.postgresql/7.0.1/npgsql.entityframeworkcore.postgresql.7.0.1.nupkg.sha512",
     "/Users/kevincjhung/.nuget/packages/runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl/4.3.0/runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",

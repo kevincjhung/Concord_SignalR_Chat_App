@@ -5,10 +5,12 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.AspNetCore.OpenApi;
+using System.Text.Json.Serialization;
 
 DotNetEnv.Env.Load();
 
-var connectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING");
+var connectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING_DEV");
+// var connectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING_PROD");
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,7 +28,15 @@ builder.Services.AddDbContext<DatabaseContext>(
     }
 );
 
-builder.Services.AddControllers();
+ builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles; // Handle reference loops
+    })
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull; // Ignore null values
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
