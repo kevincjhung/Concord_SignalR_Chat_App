@@ -52,6 +52,8 @@ This app uses SignalR for realtime communication, SignalR enables bidirectional 
 
 #### PostgreSQL
 
+For a visualization of the database schema: <https://dbdiagram.io/d/64f4df1e02bd1c4a5ee2d8cf>
+
 Our backend connects to a cloud-hosted PostgreSQL database, which ensures data persistence, data integrity, and easy scalability. PostgreSQL is known for its reliability and adherence to SQL standards, making it an ideal choice for data-driven applications like ours.
 
 ### Frontend
