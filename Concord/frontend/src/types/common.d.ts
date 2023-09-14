@@ -6,4 +6,12 @@ declare module "common" {
       created: Date;
       channelId: number;
     };
+
+    type Channel = {
+      id: number;
+      name: string;
+      description: string;
+    };
+
 }
+

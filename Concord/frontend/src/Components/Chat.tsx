@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import "../App.css";
 
 // MaterialUI
-import { List, ListItem, TextField } from '@mui/material';
+import { List, ListItem, TextField, Typography } from '@mui/material';
 
 // Components
 import PersistentDrawer from "./PersistentDrawer";
@@ -28,7 +28,7 @@ export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newChannelName, setNewChannelName] = useState("");
   const [channels, setChannels] = useState([]);
-  const [currentChannel, setCurrentChannel] = useState("4");
+  const [currentChannel, setCurrentChannel] = useState("");
 
   // TODO: Current user is hardcoded for now, will be replaced with authentication
   const [currentUser, setCurrentUser] = useState("Ahmed Khan");
@@ -42,17 +42,19 @@ export default function Chat() {
       return
     }
 
-    // Join room 1   
+    // Join room for the current channel
     connection.invoke("AddToGroup", currentChannel)
       .catch(function (err) {
         return console.error(err.toString());
       })
 
-    // Get all the messages from backend for channel 1
+    // Get all the messages from backend for the current channel
     fetch(`/api/Message/channel/${currentChannel}`)
       .then((res) => res.json())
       .then((data) => {
         console.log("App.tsx: getting all the messages from backend, the messages are:")
+        console.log(currentChannel)
+        console.log()
         setMessages(data.map((m: Message) => ({ ...m, created: new Date(m.created) })));
       })
       .catch((error) => {
@@ -174,11 +176,51 @@ export default function Chat() {
     setCurrentChannel(channelId.toString());
   };
 
+  const conversationInstructions = () => {
+    // if no channels exist, show instructions to create a channel
+    if (channels.length === 0) {
+      return (
+        <div className="flex flex-grow items-center justify-center">
+          <Typography variant="h4" className="align-middle">
+            To get started, create a channel
+          </Typography>
+        </div>
+      )
+    } else if (currentChannel === "") {
+      // if channels exist but no channel is selected, show instructions to select a channel
+      return (
+        <div className="flex flex-grow items-center justify-center">
+          <Typography variant="h4" className="align-middle">
+            To get started, select a channel from the sidebar
+          </Typography>
+        </div>
+      )
+    } 
+  }
+  
+
 
   return (
     <div className='flex flex-col items-center'>
       <PersistentDrawer channels={channels} currentChannel={currentChannel} onChannelClick={handleChannelClick} />
       <div className="w-full max-w-[927px] min-w-[600px] p-4">
+        {/* {
+          currentChannel !== "" ? (
+            <div className="flex justify-around items-center ">
+              <h1 className="text-3xl">{currentChannel}</h1>
+              
+            </div>
+          ) : (
+            <div className="flex flex-grow items-center justify-center">
+              <Typography variant="h4" className="align-middle">
+                To get started, select a channel from the sidebar
+              </Typography>
+            </div>
+          )
+        } */}
+
+        {conversationInstructions()}
+        
         <List
           sx={{
             overflowY: 'scroll',
@@ -190,6 +232,7 @@ export default function Chat() {
             
           }}
         >
+        
           {messages.map((message) => (
             <ListItem key={message.id}>
               {message.userName === currentUser ? (
