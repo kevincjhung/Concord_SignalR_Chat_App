@@ -5,6 +5,7 @@ Concord is a real-time chat application designed to showcase modern web technolo
 Originally conceived as a school project, this application has grown significantly, with ongoing development efforts and regular feature additions. It has evolved beyond its academic origins into a dynamic, actively maintained project.
 
 
+
 <br>
 
 ![Concord Preview](./Concord/frontend/public/Chat_Interface.png)
@@ -31,13 +32,13 @@ Photo: Screenshot of the main chat interface
 ## Key Features
 
 Real-Time Communication:
-Our chat application leverages SignalR, enabling real-time bidirectional communication between users. Users can instantly send and receive messages, fostering seamless and interactive conversations
+The chat application leverages SignalR, enabling real-time bidirectional communication between users. Users can instantly send and receive messages, fostering seamless and interactive conversations
 
 Multiple Channels:
 The app supports the creation and management of multiple channels, allowing users to engage in distinct conversations based on their interests or topics. The intuitive sidebar interface makes channel selection effortless.
 
 Responsive Design:
-Our frontend, built using React with Vite and enhanced by Tailwind CSS, offers a responsive and adaptive user interface. Users can access the application across various devices, ensuring a consistent and enjoyable experience on desktops, tablets, and mobile phones.
+The frontend, built using React with Vite and enhanced by Tailwind CSS, offers a responsive and adaptive user interface. Users can access the application across various devices, ensuring a consistent and enjoyable experience on desktops, tablets, and mobile phones.
 
 Material Design Principles:
 The frontend UI adopts MaterialUI, a well-established and widely-used UI library based on Material Design principles. This ensures a visually appealing and consistent design language throughout the application, enhancing user familiarity and ease of use.
@@ -79,7 +80,6 @@ MessageAttachments are resource URLs from cloud storage serivces (ex. Azure Blob
 * Implement a clustered index on the "channelId" key for the "Messages" table to optimize query performance for retrieving messages from specific individual channels.  
 
 * Consider vertical partitioning of the "Message" table using "ChannelId" as the partition key if the volume of data becomes substantial, which can enhance database scalability and query efficiency.
-
 
 
 #### .NET 7 with Entity Framework Core
@@ -138,3 +138,6 @@ With another terminal, cd into the "/Concord/frontend" directory, then run:
 
   yarn dev
 ```
+
+
+NOTE: Certain features may be on development branches.
