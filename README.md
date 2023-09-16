@@ -1,6 +1,10 @@
 # Concord - A Realtime Chat App Built with .NET and React
 
 Concord is a real-time chat application designed to showcase modern web technologies and foster efficient communication and collaboration among users. Developed with React, Vite, and TypeScript.
+
+Originally conceived as a school project, this application has grown significantly, with ongoing development efforts and regular feature additions. It has evolved beyond its academic origins into a dynamic, actively maintained project.
+
+
 <br>
 
 ![Concord Preview](./Concord/frontend/public/Chat_Interface.png)
@@ -11,6 +15,7 @@ Photo: Screenshot of the main chat interface
 1. [Key Features](#key-features)
 2. [Tech Stack](#tech-stack)
    - [Backend](#backend)
+     - [Schema Design & Optimization](#schema-design--optimization)
      - [.NET 7 with Entity Framework Core](#net-7-with-entity-framework-core)
      - [SignalR](#signalr)
      - [PostgreSQL](#postgresql)
@@ -19,7 +24,9 @@ Photo: Screenshot of the main chat interface
      - [TypeScript](#typescript)
      - [MaterialUI](#materialui)
      - [Tailwind CSS](#tailwind-css)
-3. [Features To Be Implemented](#features-to-be-implemented)
+3. [Deployment](#deployment)
+4. [Features To Be Implemented](#features-to-be-implemented)
+
 
 ## Key Features
 
