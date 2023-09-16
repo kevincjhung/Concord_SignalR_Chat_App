@@ -42,6 +42,39 @@ TypeScript is employed in the development process, providing static typing and r
 
 ### Backend
 
+#### Schema Design & Optimization
+
+Data persistence is done using a cloud Postgres database.
+
+The database schema is as follows: 
+
+![EntityRelationshipDiagram](./Concord/frontend/public/EntityRelationshipDiagram.png)
+Photo: Entity Relationship Diagram of the current schema
+
+The functionalities and constraints of the schema is as follows:
+
+##### Relationships
+
+Channel has a one-to-many relationship with Message, where each channel can have many messages.
+
+Message has a one-to-many relationship with MessageAttachment, allowing a message to have multiple attachments.
+
+User has a one-to-many relationship with both Message and Channel. Users can send multiple messages and participate in multiple channels.
+
+A many-to-many relationship exists between User and Channel using a join entity called UserChannel. Users can be associated with multiple Channels, and each Channel can have multiple Users.
+
+MessageAttachments are resource URLs from cloud storage serivces (ex. Azure Blob Storage or Amazon S3) that belong to a message. They are used for sending file attachments in the chat. One message can have many files attached,  a MessageAttachment belongs to a single Message.
+
+##### Optimizations
+
+* The Messages table contains all of the messages, and is expected to get very large. The data type of the primary key can be changed to BigInt to allow for a larger number of unique values. BigInt is chosen instead of UUID because of the need for sequential access.
+
+* Implement a clustered index on the "channelId" key for the "Messages" table to optimize query performance for retrieving messages from specific individual channels.  
+
+* Consider vertical partitioning of the "Message" table using "ChannelId" as the partition key if the volume of data becomes substantial, which can enhance database scalability and query efficiency.
+
+
+
 #### .NET 7 with Entity Framework Core
 
 Entity Framework Core We utilize Entity Framework Core as our ORM (Object-Relational Mapping) tool, which simplifies database interactions, enhances database performance, and ensures a smooth and hassle-free integration with our PostgreSQL cloud database.
@@ -50,9 +83,6 @@ Entity Framework Core We utilize Entity Framework Core as our ORM (Object-Relati
 
 This app uses SignalR for realtime communication, SignalR enables bidirectional communication between clients and the server, eliminating the need for frequent polling and providing real-time updates to users whenever a new message is sent or received.
 
-#### PostgreSQL
-
-Our backend connects to a cloud-hosted PostgreSQL database, which ensures data persistence, data integrity, and easy scalability. PostgreSQL is known for its reliability and adherence to SQL standards, making it an ideal choice for data-driven applications like ours.
 
 ### Frontend
 
