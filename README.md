@@ -79,7 +79,7 @@ MessageAttachments are resource URLs from cloud storage serivces (ex. Azure Blob
 
 * Implement a clustered index on the "channelId" key for the "Messages" table to optimize query performance for retrieving messages from specific individual channels.  
 
-* Consider vertical partitioning of the "Message" table using "ChannelId" as the partition key if the volume of data becomes substantial, which can enhance database scalability and query efficiency.
+* Consider horizontal database partitioning of the "Message" table using "ChannelId" as the partition key if the volume of data becomes substantial. This can enhance database scalability and query efficiency. This particular method is chosen as it is expected that a single query will only ever request messages from a single channel. 
 
 
 #### .NET 7 with Entity Framework Core
