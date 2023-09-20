@@ -24,55 +24,37 @@ Photo: Screenshot of the main chat interface
 ## Key Features
 
 Real-Time Communication:
-Our chat application leverages SignalR, enabling real-time bidirectional communication between users. Users can instantly send and receive messages, fostering seamless and interactive conversations
+Our chat application leverages SignalR, enabling real-time bidirectional communication between users. Users can instantly send and receive messages.
+
+When the client sends a message, the message is sent to the server using HTTP POST. The server then broadcasts the message to all connected clients subscribed to the channel through SignalR.
 
 Multiple Channels:
-The app supports the creation and management of multiple channels, allowing users to engage in distinct conversations based on their interests or topics. The intuitive sidebar interface makes channel selection effortless.
+The app supports the creation and management of multiple channels,aka "conversations". Users can create and delete conversations.
 
 Responsive Design:
-Our frontend, built using React with Vite and enhanced by Tailwind CSS, offers a responsive and adaptive user interface. Users can access the application across various devices, ensuring a consistent and enjoyable experience on desktops, tablets, and mobile phones.
+Our frontend, built using React with Vite and enhanced by Tailwind CSS, offers a responsive and adaptive user interface. Users can access the application across various devices.
 
 Material Design Principles:
 The frontend UI adopts MaterialUI, a well-established and widely-used UI library based on Material Design principles. This ensures a visually appealing and consistent design language throughout the application, enhancing user familiarity and ease of use.
 
-Type Safety with TypeScript:
-TypeScript is employed in the development process, providing static typing and robust type safety. This results in fewer errors during development and better code quality, making the application more reliable and maintainable.
 
 ## Tech Stack
 
+### Frontend
+ 
+- Framework: React with Vite
+- Language: TypeScript
+- Styling and UI: MaterialUI, Tailwind CSS
+
 ### Backend
 
-#### .NET 7 with Entity Framework Core
+- Framework: .NET 7 with Entity Framework Core
+- Language: C#
+- Realtime Communication: SignalR
+- Database: PostgreSQL. 
+For visualization of the database schema, see: <https://dbdiagram.io/d/64f4df1e02bd1c4a5ee2d8cf>
 
-Entity Framework Core We utilize Entity Framework Core as our ORM (Object-Relational Mapping) tool, which simplifies database interactions, enhances database performance, and ensures a smooth and hassle-free integration with our PostgreSQL cloud database.
 
-#### SignalR
-
-This app uses SignalR for realtime communication, SignalR enables bidirectional communication between clients and the server, eliminating the need for frequent polling and providing real-time updates to users whenever a new message is sent or received.
-
-#### PostgreSQL
-
-For a visualization of the database schema: <https://dbdiagram.io/d/64f4df1e02bd1c4a5ee2d8cf>
-
-Our backend connects to a cloud-hosted PostgreSQL database, which ensures data persistence, data integrity, and easy scalability. PostgreSQL is known for its reliability and adherence to SQL standards, making it an ideal choice for data-driven applications like ours.
-
-### Frontend
-
-#### React with Vite
-
-We have chosen React as the frontend framework for its component-based architecture and reactivity, allowing us to build dynamic and scalable user interfaces. Vite, a fast build tool, further enhances the development experience by providing rapid hot module replacement and instant server startup.
-
-#### TypeScript
-
-TypeScript is employed to bring static typing to our codebase, ensuring enhanced type safety and reduced errors during development.
-
-#### MaterialUI
-
-The frontend adopts MaterialUI as the primary external UI library. Following the principles of Material Design, MaterialUI provides a visually consistent and intuitive user experience. Its extensive set of components and styles accelerate development while maintaining a cohesive and professional appearance.
-
-#### Tailwind CSS
-
-Tailwind CSS works in harmony with MaterialUI to provide a customizable and utility-first CSS framework. Tailwind CSS facilitates effortless styling and layout adjustments, empowering us to craft unique and responsive designs that match our application's specific needs.
 
 ## Deployment
 
