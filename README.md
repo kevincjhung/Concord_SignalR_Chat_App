@@ -51,10 +51,22 @@ The frontend UI adopts MaterialUI, a well-established and widely-used UI library
 - Framework: .NET 7 with Entity Framework Core
 - Language: C#
 - Realtime Communication: SignalR
-- Database: PostgreSQL. 
+- Database: PostgreSQL.
 For visualization of the database schema, see: <https://dbdiagram.io/d/64f4df1e02bd1c4a5ee2d8cf>
 
+#### Database Schema
 
+
+![Entity Relationship Diagram Preview](./Concord/frontend/public/EntityRelationshipDiagram.png)
+Photo: Entity Relationship Diagram of the database schema
+
+**Optimizations**
+
+* The Messages table contains all of the messages, and is expected to get very large. The data type of the primary key can be changed to BigInt to allow for a larger number of unique values. BigInt is chosen instead of UUID because of the need for sequential access.
+
+* Implement a clustered index on the "channelId" key for the "Messages" table to optimize query performance for retrieving messages from specific individual channels.  
+
+* Consider horizontal database partitioning of the "Message" table using "ChannelId" as the partition key if the volume of data becomes substantial. This can enhance database scalability and query efficiency. This particular method is chosen as it is expected that a single query will only ever request messages from a single channel. 
 
 ## Deployment
 
