@@ -117,7 +117,7 @@ export default function PersistentDrawer({ channels, currentChannel, onChannelCl
 						<MenuIcon />
 					</IconButton>
 					<Typography variant="h6" noWrap component="div">
-						Concord - A Fly Chat Application
+						Concord - A Chat Application
 					</Typography>
 					<Avatar></Avatar>
 				</Toolbar>
