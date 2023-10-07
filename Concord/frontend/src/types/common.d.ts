@@ -2,7 +2,7 @@ declare module "common" {
     type Message = {
       id: number;
       text: string;
-      userName: string;
+      userId: number;
       created: Date;
       channelId: number;
     };
@@ -10,7 +10,7 @@ declare module "common" {
     type Channel = {
       id: number;
       name: string;
-      description: string;
+      created: Date;
     };
 
 }

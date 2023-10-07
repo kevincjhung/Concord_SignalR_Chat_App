@@ -16,9 +16,8 @@ const OtherUserMessageBubble: React.FC<OtherUserMessageBubbleProps> = ({ message
 			<div className="flex flex-col items-start">
 				<div className="flex items-center space-x-2 mb-4">
 					<Avatar alt="" src="" />
-					<p className="font-bold">{message.userName}</p>
+					<p className="font-bold">UserId: {message.userId}</p>
 				</div>
-
 			</div>
 			<p>{message.text}</p>
 			<p className="text-xs mt-4">{message.created.toLocaleString()}</p>

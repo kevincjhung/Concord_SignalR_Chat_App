@@ -31,7 +31,7 @@ export default function Chat() {
   const [currentChannel, setCurrentChannel] = useState("");
 
   // TODO: Current user is hardcoded for now, will be replaced with authentication
-  const [currentUser, setCurrentUser] = useState("Ahmed Khan");
+  const [currentUser, setCurrentUser] = useState(1); // this is used to determine whos messages are on the left and right. It is the userId, 
 
   // Scroll to the bottom of messages
   const messageEndRef = useRef<HTMLDivElement>(null);
@@ -53,8 +53,9 @@ export default function Chat() {
       .then((res) => res.json())
       .then((data) => {
         console.log("App.tsx: getting all the messages from backend, the messages are:")
-        console.log(currentChannel)
-        console.log()
+        console.log(data)
+        console.log('the current channel is: ' + currentChannel)
+      
         setMessages(data.map((m: Message) => ({ ...m, created: new Date(m.created) })));
       })
       .catch((error) => {
@@ -204,20 +205,7 @@ export default function Chat() {
     <div className='flex flex-col items-center'>
       <PersistentDrawer channels={channels} currentChannel={currentChannel} onChannelClick={handleChannelClick} />
       <div className="w-full max-w-[927px] min-w-[600px] p-4">
-        {/* {
-          currentChannel !== "" ? (
-            <div className="flex justify-around items-center ">
-              <h1 className="text-3xl">{currentChannel}</h1>
-              
-            </div>
-          ) : (
-            <div className="flex flex-grow items-center justify-center">
-              <Typography variant="h4" className="align-middle">
-                To get started, select a channel from the sidebar
-              </Typography>
-            </div>
-          )
-        } */}
+        
 
         {conversationInstructions()}
         
@@ -235,7 +223,7 @@ export default function Chat() {
         
           {messages.map((message) => (
             <ListItem key={message.id}>
-              {message.userName === currentUser ? (
+              {message.userId === currentUser ? (
                 <CurrentUserMessageBubble message={message} />
               ) : (
                 <OtherUserMessageBubble message={message} />
